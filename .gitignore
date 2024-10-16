@@ -2,3 +2,4 @@
 /node_modules
 /saveCodeToTxtComplete.js
 .env
+migrate.js
