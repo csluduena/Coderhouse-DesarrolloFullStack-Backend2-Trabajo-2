@@ -1,0 +1,33 @@
+<div class="success-container"
+    style="display: flex;flex-direction: column;align-items: center;background-color: #000000cf;margin-left: 25%;margin-right: 25%;padding: 2rem;border-radius: 2rem;border: 2px solid white;">
+    <h1 class="tituloLog">¡Compra Exitosa!</h1>
+    <div class="ticket-details" style="text-align: center;">
+        <h2>Detalles del Ticket</h2>
+        <h3>Ticket: {{ticket.code}}</h3>
+        <p>Monto total: ${{ticket.amount}}</p>
+        <p>Fecha de compra: {{formatDate ticket.purchase_datetime}}</p>
+    </div>
+
+
+    {{#if purchasedItems.length}}
+    <h4>Artículos comprados:</h4>
+    <ul>
+        {{#each purchasedItems}}
+        <li>{{this.product.title}} - Cantidad: {{this.quantity}}</li>
+        {{/each}}
+    </ul>
+    {{/if}}
+
+    {{#if failedItems.length}}
+    <h4>Artículos no procesados por falta de stock:</h4>
+    <ul>
+        {{#each failedItems}}
+        <li>{{this.product.title}} - Cantidad: {{this.quantity}}</li>
+        {{/each}}
+    </ul>
+    {{/if}}
+
+
+    <a href="/products" class="btn btn-primary" style="display: flex;width: 13rem;justify-content: center;">Seguir
+        Comprando</a>
+</div>

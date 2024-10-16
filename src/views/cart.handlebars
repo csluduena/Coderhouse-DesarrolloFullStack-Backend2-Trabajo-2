@@ -1,0 +1,170 @@
+<main class="mainB">
+<h1 class="tituloLog">Tu Carrito de Compras</h1>
+
+{{#if isEmpty}}
+<p>Tu carrito está vacío. ¡Agrega algunas guitarras rockeras!</p>
+<a href="/products" class="btn btn-primary">
+    <i class="fas fa-guitar"></i> Ver productos
+</a>
+{{else}}
+<div class="contenedorProd">
+    <div class="subCont">
+        <div class="cart-items">
+        {{#each cartItems}}
+            <div class="cart-item" data-id="{{this._id}}">
+                <img src="{{this.product.img}}" alt="{{this.product.title}}" class="cart-item-image" style="width: 35%; margin-top: 2%;">
+                <div class="cart-item-details"><br>
+                <h3>{{this.product.title}}</h3><br>
+                <p class="price">$<span class="item-price">{{this.product.price}}</span></p>
+                <div class="quantity-control" data-id="{{this._id}}">
+                    <button class="btn btn-sm btn-decrease">-</button>
+                    <span class="quantity">{{this.quantity}}</span>
+                    <button class="btn btn-sm btn-increase">+</button>
+                </div>
+                <button class="btn btn-sm btn-remove" data-id="{{this._id}}">
+                    <i class="fas fa-trash"></i> Eliminar
+                </button>
+                <hr class="linea">
+                </div>
+            </div>
+        {{/each}}
+        </div>
+        <div class="cart-summary">
+            <h3 style="text-align: center;">Total: $<span id="cart-total">0</span></h3>
+            <button id="btn-checkout" class="btn btn-primary btn-checkout">
+                <i class="fas fa-credit-card"></i> Proceder al pago
+            </button>
+        </div>
+    </div>
+</div>
+{{/if}}
+</main>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const quantityControls = document.querySelectorAll('.quantity-control');
+    const removeButtons = document.querySelectorAll('.btn-remove');
+
+    function updateCartTotal() {
+        const cartItems = document.querySelectorAll('.cart-item');
+        let total = 0;
+        cartItems.forEach(item => {
+            const price = parseFloat(item.querySelector('.item-price').textContent);
+            const quantity = parseInt(item.querySelector('.quantity').textContent);
+            total += price * quantity;
+        });
+        const cartTotalElement = document.getElementById('cart-total');
+        if (cartTotalElement) {
+            cartTotalElement.textContent = total.toFixed(2);
+        }
+    }
+
+    function updateItemQuantity(itemElement, newQuantity) {
+        const quantitySpan = itemElement.querySelector('.quantity');
+        quantitySpan.textContent = newQuantity;
+        updateCartTotal();
+    }
+
+    async function updateQuantity(itemId, change) {
+        try {
+            const itemElement = document.querySelector(`.cart-item[data-id="${itemId}"]`);
+            const quantitySpan = itemElement.querySelector('.quantity');
+            const currentQuantity = parseInt(quantitySpan.textContent);
+            const newQuantity = currentQuantity + change;
+
+            if (newQuantity > 0) {
+                const response = await fetch(`/api/carts/update/${itemId}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ quantity: newQuantity })
+                });
+
+                if (response.ok) {
+                    quantitySpan.textContent = newQuantity;
+                    updateCartTotal();
+                } else {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Error al actualizar la cantidad');
+                }
+            } else {
+                // Si la nueva cantidad es 0 o menos, eliminamos el item
+                await removeItem(itemId);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            await rockAlert.error(error.message);
+        }
+    }
+
+    async function removeItem(itemId) {
+        const result = await rockAlert.confirm('¿Estás seguro de que quieres eliminar este producto del carrito?');
+        if (result.isConfirmed) {
+            try {
+                const response = await fetch(`/api/carts/remove/${itemId}`, {
+                    method: 'DELETE'
+                });
+                if (response.ok) {
+                    const itemElement = document.querySelector(`.cart-item[data-id="${itemId}"]`);
+                    itemElement.remove();
+                    updateCartTotal();
+                    await rockAlert.success('¡Producto eliminado del carrito!');
+                } else {
+                    throw new Error('Error al eliminar el item');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                await rockAlert.error('Error al eliminar el item');
+            }
+        }
+    }
+
+    quantityControls.forEach(control => {
+        const decreaseBtn = control.querySelector('.btn-decrease');
+        const increaseBtn = control.querySelector('.btn-increase');
+        const itemId = control.dataset.id;
+
+        decreaseBtn.addEventListener('click', () => updateQuantity(itemId, -1));
+        increaseBtn.addEventListener('click', () => updateQuantity(itemId, 1));
+    });
+
+    removeButtons.forEach(button => {
+        button.addEventListener('click', () => removeItem(button.dataset.id));
+    });
+
+    // Initialize the cart total
+    updateCartTotal();
+
+    // Evento del botón de checkout dentro de DOMContentLoaded
+    const checkoutButton = document.getElementById('btn-checkout');
+    if (checkoutButton) {
+        checkoutButton.addEventListener('click', async () => {
+            try {
+                const response = await fetch('/api/carts/finalize', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    await rockAlert.success('¡Felicidades por tu compra!');
+                    window.location.href = `/success?ticketId=${data.ticket._id}`;
+                } else {
+                    if (data.failedItems && data.failedItems.length > 0) {
+                        let message = 'No hay suficiente stock para los siguientes productos:\n';
+                        data.failedItems.forEach(item => {
+                            message += `- ${item.title}: ${item.quantity}\n`;
+                        });
+                        await rockAlert.error(message);
+                    } else {
+                        await rockAlert.error(data.message || 'Error al procesar la compra');
+                    }
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                await rockAlert.error('Error al procesar la compra');
+            }
+        });
+    }
+});
+</script>

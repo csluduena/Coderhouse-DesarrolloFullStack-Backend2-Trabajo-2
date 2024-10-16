@@ -1,0 +1,12 @@
+<h1>Nuevo Stock de Guitarras</h1>
+
+<ul>
+    {{#each productos}}
+    <li>
+        <h2>{{this.title}}</h2>
+        <img src="{{this.image.imageUrl}}" alt="{{this.title}}">
+        <p>{{this.description}}</p>
+        <p>Precio: ${{this.price.value}}</p>
+    </li>
+    {{/each}}
+</ul>
