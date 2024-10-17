@@ -26,8 +26,3 @@ router.post('/:cid/product/:pid', addProductToCart);
 router.delete('/:cid/products/:pid', removeProductFromCart);
 
 export default router;
-
-/*
-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzEwM2UxYTRkZWZiNTI2OTg1MDA5MTMiLCJmaXJzdF9uYW1lIjoiSm9obiIsImxhc3RfbmFtZSI6IkRvZSIsImVtYWlsIjoiM0Bsa2dsZS5jb20iLCJhZ2UiOjMwLCJyb2xlIjoidXNlciIsImNhcnQiOiI2NzEwM2UxYTRkZWZiNTI2OTg1MDA5MTUiLCJpYXQiOjE3MjkxMTc3MjIsImV4cCI6MTcyOTEyMTMyMn0.YDGasL5yY71IA6_f6OJQsz122O3RZpWdFwmLsxjIbOw
-
-*/

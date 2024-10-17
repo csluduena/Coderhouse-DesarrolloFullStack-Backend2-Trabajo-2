@@ -27,7 +27,7 @@ export const isAdmin = (req, res, next) => {
     if (req.user && req.user.role === 'admin') {
         next();
     } else {
-        res.status(ERROR_CODES.FORBIDDEN).json({ message: ERROR_MESSAGES.UNAUTHORIZED_ACCESS });
+        res.status(ERROR_CODES.FORBIDDEN).json({ message: ERROR_MESSAGES.ADMIN_REQUIRED });
     }
 };
 

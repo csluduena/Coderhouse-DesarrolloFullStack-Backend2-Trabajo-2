@@ -1,13 +1,17 @@
 import { ProductRepository } from '../dao/repositories/product.repository.js';
+import { CategoryRepository } from '../dao/repositories/category.repository.js';  // Importamos el CategoryRepository
 import { ERROR_CODES, ERROR_MESSAGES } from '../utils/errorCodes.js';
 
 const productRepository = new ProductRepository();
+const categoryRepository = new CategoryRepository();  // Inicializamos el repositorio de categorías
+
 
 export const getProducts = async (req, res) => {
     let page = parseInt(req.query.page) || 1;
     let limit = parseInt(req.query.limit) || 15;
     const querySort = req.query.sort || "defa";
     let sort = {};
+    const category = req.query.category;
 
     switch (querySort) {
         case "price_asc":
@@ -30,7 +34,8 @@ export const getProducts = async (req, res) => {
     }
 
     try {
-        const result = await productRepository.findAll({ page, limit, sort });
+        const query = category ? { category } : {};
+        const result = await productRepository.findAll({ page, limit, sort, query });
 
         res.status(200).json({
             status: "success",
@@ -41,10 +46,11 @@ export const getProducts = async (req, res) => {
             page: result.page,
             hasPrevPage: result.hasPrevPage,
             hasNextPage: result.hasNextPage,
-            prevLink: result.hasPrevPage ? `/api/products?page=${result.prevPage}&limit=${limit}&sort=${querySort}` : null,
-            nextLink: result.hasNextPage ? `/api/products?page=${result.nextPage}&limit=${limit}&sort=${querySort}` : null
+            prevLink: result.hasPrevPage ? `/api/products?page=${result.prevPage}&limit=${limit}&sort=${querySort}${category ? `&category=${category}` : ''}` : null,
+            nextLink: result.hasNextPage ? `/api/products?page=${result.nextPage}&limit=${limit}&sort=${querySort}${category ? `&category=${category}` : ''}` : null
         });
     } catch (error) {
+        console.error('Error in getProducts:', error);
         res.status(ERROR_CODES.INTERNAL_SERVER_ERROR).json({ status: "error", message: ERROR_MESSAGES.SERVER_ERROR });
     }
 };
@@ -62,10 +68,36 @@ export const getProductById = async (req, res) => {
     }
 };
 
+// Función actualizada para crear producto y actualizar la categoría
 export const createProduct = async (req, res) => {
     try {
-        const newProduct = await productRepository.create(req.body);
-        res.status(201).json({ status: "success", message: "Producto creado exitosamente", product: newProduct });
+        const { title, description, price, img, code, stock, category } = req.body;
+
+        // 1. Crear el producto
+        const newProduct = await productRepository.create({ title, description, price, img, code, stock, category });
+
+        // Asegúrate de que todos los datos requeridos están presentes
+        if (!title || !description || !price || !img || !code || !stock || !category) {
+            return res.status(400).json({ status: "error", message: "Faltan datos requeridos" });
+        }
+
+        // 2. Buscar la categoría correspondiente o crear una nueva si no existe
+        let categoryObj = await categoryRepository.findByName(category);
+
+        if (categoryObj) {
+            // Si la categoría existe, agregar el producto a su lista
+            categoryObj.products.push(newProduct._id);
+            await categoryRepository.update(categoryObj._id, categoryObj);
+        } else {
+            // Si la categoría no existe, crear una nueva
+            const newCategory = {
+                name: category,
+                products: [newProduct._id]
+            };
+            await categoryRepository.create(newCategory);
+        }
+
+        res.status(201).json({ status: "success", message: "Producto creado y categoría actualizada", product: newProduct });
     } catch (error) {
         res.status(ERROR_CODES.INTERNAL_SERVER_ERROR).json({ status: "error", message: ERROR_MESSAGES.SERVER_ERROR });
     }

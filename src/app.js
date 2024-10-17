@@ -7,17 +7,19 @@ import initializePassport from "./config/passport.config.js";
 import { engine } from "express-handlebars";
 import { Server } from "socket.io";
 import config from './config/config.js';
-import productsRouter from "./routes/products.routes.js";
+import productsRouter from "./routes/products.routes.js"; // Asegúrate de que sea el nombre correcto
 import cartRouter from "./routes/cart.routes.js";
 import userRouter from "./routes/user.routes.js";
 import orderRouter from "./routes/order.routes.js";
 import viewsRouter from "./routes/views.routes.js";
 import sessionRouter from "./routes/session.routes.js";
+import adminRouter from "./routes/admin.routes.js";
 import { errorHandler, notFoundHandler } from "./middlewares/error.middleware.js";
 import ProductManager from './dao/db/productManagerDb.js';
 import { fileURLToPath } from 'url';
 import path from 'path';
 import "./db.js";
+import bodyParser from 'body-parser';
 
 const app = express();
 const productManager = new ProductManager();
@@ -30,11 +32,10 @@ app.use(express.static("./src/public"));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
 
-// Configuración de la sesión
 app.use(session({
     store: MongoStore.create({
         mongoUrl: config.mongodbUri,
-        ttl: 60 * 60 // 1 hora
+        ttl: 60 * 60 
     }),
     secret: config.sessionSecret,
     resave: false,
@@ -71,13 +72,18 @@ app.engine('handlebars', engine({
 app.set('view engine', 'handlebars');
 app.set('views', 'src/views');
 
+// Middleware para analizar JSON
+app.use(bodyParser.json());
+
 app.get('/favicon.ico', (req, res) => res.status(204).end());
 
-app.use("/api/products", productsRouter);
+// Asegúrate de que solo uses una vez la ruta de productos
+app.use("/api/products", productsRouter); // Solo una vez
 app.use("/api/carts", cartRouter);
 app.use("/api/users", userRouter);
 app.use("/api/orders", orderRouter);
 app.use('/api/sessions', sessionRouter);
+app.use('/admin', adminRouter);
 app.use('/', viewsRouter);
 
 app.use(notFoundHandler);

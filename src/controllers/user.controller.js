@@ -70,7 +70,6 @@ export const register = async (req, res) => {
                 age: user.age,
                 role: user.role,
                 cart: user.cart
-
             },
             jwtSecret,
             { expiresIn: '1h' }
@@ -136,7 +135,20 @@ export const login = async (req, res) => {
             cart: user.cart
         };
 
-        const token = jwt.sign(userInfo, jwtSecret, { expiresIn: '1h' });
+        // const token = jwt.sign(userInfo, jwtSecret, { expiresIn: '1h' });
+        const token = jwt.sign(
+            {
+                userId: user._id,
+                first_name: user.first_name,
+                last_name: user.last_name,
+                email: user.email,
+                age: user.age,
+                role: user.role,
+                cart: user.cart
+            },
+            jwtSecret,
+            { expiresIn: '1h' }
+        );
 
         res.cookie('token', token, { httpOnly: true, maxAge: 3600000 });
 

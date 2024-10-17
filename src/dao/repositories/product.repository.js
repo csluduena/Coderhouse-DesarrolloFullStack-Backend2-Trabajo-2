@@ -3,7 +3,8 @@ import { ProductDTO } from '../../dto/product.dto.js';
 
 export class ProductRepository {
     async findAll(options = {}) {
-        const products = await Product.paginate({}, options);
+        const { page = 1, limit = 10, sort = {}, query = {} } = options;
+        const products = await Product.paginate(query, { page, limit, sort });
         return {
             ...products,
             docs: products.docs.map(product => new ProductDTO(product))

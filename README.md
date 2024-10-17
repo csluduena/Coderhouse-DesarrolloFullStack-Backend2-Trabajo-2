@@ -173,19 +173,61 @@ This model represents a purchase ticket, storing information about each successf
 
 The Guitar Store project has been significantly enhanced with new features and improved architecture. The implementation of DTOs, repositories, and the ticket system has made the application more robust and scalable. Future improvements could include more advanced product filtering, user reviews, and integration with payment gateways.
 
+
+```
 FUNCIONAL
+├─ .git
+│  ├─ COMMIT_EDITMSG
+│  ├─ config
+│  ├─ description
+│  ├─ FETCH_HEAD
+│  ├─ HEAD
+│  ├─ hooks
+│  │  ├─ applypatch-msg.sample
+│  │  ├─ commit-msg.sample
+│  │  ├─ fsmonitor-watchman.sample
+│  │  ├─ post-update.sample
+│  │  ├─ pre-applypatch.sample
+│  │  ├─ pre-commit.sample
+│  │  ├─ pre-merge-commit.sample
+│  │  ├─ pre-push.sample
+│  │  ├─ pre-rebase.sample
+│  │  ├─ pre-receive.sample
+│  │  ├─ prepare-commit-msg.sample
+│  │  ├─ push-to-checkout.sample
+│  │  ├─ sendemail-validate.sample
+│  │  └─ update.sample
+│  ├─ index
+│  ├─ info
+│  │  └─ exclude
+│  ├─ logs
+│  │  ├─ HEAD
+│  │  └─ refs
+│  │     ├─ heads
+│  │     │  └─ main
+│  │     └─ remotes
+│  │        └─ origin
+│  │           └─ main
+│  ├─ ORIG_HEAD
+│  └─ refs
+│     ├─ heads
+│     │  └─ main
+│     ├─ remotes
+│     │  └─ origin
+│     │     └─ main
+│     └─ tags
 ├─ .gitignore
 ├─ INFO ENV Y MONGODB.txt
-├─ migrate.js
 ├─ package-lock.json
 ├─ package.json
-├─ readme2.md
+├─ README.md
 └─ src
    ├─ app.js
    ├─ config
    │  ├─ config.js
    │  └─ passport.config.js
    ├─ controllers
+   │  ├─ admin.controller.js
    │  ├─ cart.controller.js
    │  ├─ order.controller.js
    │  ├─ product.controller.js
@@ -258,6 +300,7 @@ FUNCIONAL
    │     ├─ main.js
    │     └─ rockAlerts.js
    ├─ routes
+   │  ├─ admin.routes.js
    │  ├─ cart.routes.js
    │  ├─ order.routes.js
    │  ├─ products.routes.js
@@ -267,9 +310,13 @@ FUNCIONAL
    ├─ services
    │  └─ email.service.js
    ├─ utils
+   │  ├─ admin-stock.js
    │  ├─ errorCodes.js
+   │  ├─ setAdmin.js
    │  └─ util.js
    └─ views
+      ├─ admin
+      │  └─ stock.handlebars
       ├─ cart.handlebars
       ├─ current-session.handlebars
       ├─ error.handlebars
@@ -284,3 +331,5 @@ FUNCIONAL
       ├─ register.handlebars
       ├─ success.handlebars
       └─ ticket.handlebars
+
+```

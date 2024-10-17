@@ -26,6 +26,7 @@
                     <li id="loginLink"><a href="/login">Iniciar sesión</a></li>
                     <li id="registerLink"><a href="/register">Registrarse</a></li>
                     <li id="profileLink" style="display: none;"><a href="/profile">Perfil</a></li>
+                    <li id="adminLink" style="display: none;"><a href="/admin/stock">Administrador</a></li>
                     <li id="logoutLink" style="display: none;"><a href="#" onclick="logout()">Cerrar sesión</a></li>
                 </ul>
             </nav>
@@ -68,7 +69,7 @@
                 if (response.ok) {
                     const data = await response.json();
                     if (data.isAuthenticated) {
-                        updateNavigation(true);
+                        updateNavigation(true, data.user.role === 'admin');
                         if (data.user.cart) {
                             updateCartCount(data.user.cart);
                         }
@@ -84,12 +85,13 @@
             }
         }
 
-        function updateNavigation(isAuthenticated) {
+        function updateNavigation(isAuthenticated, isAdmin = false) {
             document.getElementById('cartLink').style.display = isAuthenticated ? 'inline' : 'none';
             document.getElementById('profileLink').style.display = isAuthenticated ? 'inline' : 'none';
             document.getElementById('logoutLink').style.display = isAuthenticated ? 'inline' : 'none';
             document.getElementById('loginLink').style.display = isAuthenticated ? 'none' : 'inline';
             document.getElementById('registerLink').style.display = isAuthenticated ? 'none' : 'inline';
+            document.getElementById('adminLink').style.display = isAdmin ? 'inline' : 'none';
         }
 
     async function updateCartCount(cartId) {

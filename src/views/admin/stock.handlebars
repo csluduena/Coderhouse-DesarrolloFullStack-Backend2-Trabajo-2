@@ -1,0 +1,25 @@
+<h1 class="tituloLog">Administración de Stock</h1>
+
+<div class="category-selector">
+  <select id="categorySelect">
+    <option value="">Seleccione una categoría</option>
+    {{#each categories}}
+      <option value="{{this}}">{{this}}</option>
+    {{/each}}
+  </select>
+</div>
+
+<div id="productList" class="product-list">
+  <!-- Los productos se cargarán aquí dinámicamente -->
+</div>
+
+<div id="productDetails" class="product-details" style="display: none;">
+  <h2 id="productTitle"></h2>
+  <p id="productDescription"></p>
+  <p>Stock actual: <span id="currentStock"></span></p>
+  <input type="number" id="newStock" min="0">
+  <button id="updateStock">Actualizar Stock</button>
+  <button id="cancelUpdate">Cancelar</button>
+</div>
+
+<script src="/js/admin-stock.js"></script>
