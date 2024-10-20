@@ -1,25 +1,33 @@
 <h1 class="tituloLog">Administración de Stock</h1>
 
-<div class="category-selector">
-  <select id="categorySelect">
-    <option value="">Seleccione una categoría</option>
-    {{#each categories}}
-      <option value="{{this}}">{{this}}</option>
-    {{/each}}
-  </select>
-</div>
+<div class="admin-panel">
+    <div class="filtersCent category-selector">
+        <select id="categorySelect" class="form-control">
+            <option value="">Seleccione una categoría</option>
+            {{#each categories}}
+            <option value="{{this}}">{{this}}</option>
+            {{/each}}
+        </select>
+    </div>
 
-<div id="productList" class="product-list">
-  <!-- Los productos se cargarán aquí dinámicamente -->
-</div>
+    <div id="productList" class="product-list">
+        <!-- Los productos se cargarán aquí dinámicamente -->
+    </div>
 
-<div id="productDetails" class="product-details" style="display: none;">
-  <h2 id="productTitle"></h2>
-  <p id="productDescription"></p>
-  <p>Stock actual: <span id="currentStock"></span></p>
-  <input type="number" id="newStock" min="0">
-  <button id="updateStock">Actualizar Stock</button>
-  <button id="cancelUpdate">Cancelar</button>
+    <div id="productDetails" class="product-details" style="display: none;">
+        <h2 id="productTitle" class="product-title"></h2>
+        <p id="productDescription" class="product-description"></p>
+        <div class="stock-control">
+            <p>Stock actual: <span id="currentStock" class="current-stock"></span></p>
+            <input type="number" id="newStock" min="0" placeholder="Nuevo stock" class="form-control">
+            <div class="button-group">
+                <button id="updateStock" class="btn btn-primary">Actualizar Stock</button>
+                <button id="cancelUpdate" class="btn btn-secondary">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="error-message" class="error-message" style="display: none;"></div>
 </div>
 
 <script src="/js/admin-stock.js"></script>

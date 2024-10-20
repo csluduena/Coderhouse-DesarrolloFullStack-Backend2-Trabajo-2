@@ -84,7 +84,5 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function updateCartTotal() {
-        // Lógica para recalcular y actualizar el total del carrito
-        // Esta función debería ser implementada según la estructura de tu carrito
     }
 });

@@ -1,8 +1,8 @@
 {
-    "name": "guitarstore4.1",
-    "version": "4.1.0",
+    "name": "guitarstore4.2",
+    "version": "4.2.0",
     "type": "module",
-    "description": "Primer entrega del proyecto 'Guitar Store', para el curso de 'Backend 2' en la academia CoderHouse.",
+    "description": "Entrega Final del proyecto 'Guitar Store', para el curso de 'Backend 2' en la academia CoderHouse.",
     "main": "index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",

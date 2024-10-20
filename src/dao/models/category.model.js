@@ -1,10 +1,9 @@
 import mongoose from 'mongoose';
 
-const Schema = mongoose.Schema;
-
-const CategorySchema = new Schema({
+const CategorySchema = new mongoose.Schema({
     name: { type: String, required: true, unique: true },
-    products: [{ type: Schema.Types.ObjectId, ref: 'Product' }]  // Relación con los productos
+    products: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }]
 });
 
-export const Category = mongoose.model('Category', CategorySchema);
+const Category = mongoose.model('Category', CategorySchema);
+export default Category;

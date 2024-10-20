@@ -1,4 +1,4 @@
-import { Category } from '../models/category.model.js';
+import Category from '../models/category.model.js';
 
 export class CategoryRepository {
     async findByName(name) {
@@ -6,6 +6,14 @@ export class CategoryRepository {
             return await Category.findOne({ name }).populate('products');
         } catch (error) {
             throw new Error('Error al buscar la categoría');
+        }
+    }
+
+    async findAll() { // Método para obtener todas las categorías
+        try {
+            return await Category.find().populate('products'); // Devuelve todas las categorías
+        } catch (error) {
+            throw new Error('Error al obtener las categorías');
         }
     }
 

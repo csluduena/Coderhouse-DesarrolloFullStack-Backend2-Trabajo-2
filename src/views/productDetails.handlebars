@@ -1,45 +1,73 @@
 <div class="product-details">
-    <h1 class="tituloLog">{{product.title}}</h1>
-    <div class="flexSingleG">
-        <div class="product-content">
-            <div class="product-image">
-                <img src="{{product.img}}" alt="{{product.name}}">
-            </div>
-            <div class="product-info">
-                <h3>{{this.product.title}}</h3><br>
-                <p class="price">${{product.price}}</p>
-                <p class="description">{{product.description}}</p>
-                {{!-- <p><strong>Marca:</strong> {{product.brand}}</p> --}}
-                <p><strong>Categoría:</strong> {{product.category}}</p>
-                <p><strong>Stock:</strong> {{product.stock}}</p>
-                <button class="btn btn-primary" data-id="{{product._id}}">
-                    <i class="fas fa-shopping-cart"></i> Añadir al carrito
-                </button>
-            </div>
-        </div>
-    </div>
+    {{#if product}}
+        <h2 class="product-title">{{product.title}}</h2>
+        <p class="product-category">Categoría: {{product.category}}</p>
+        <img src="{{product.img}}" alt="{{product.title}}" class="product-image">
+        <p class="product-description">{{product.description}}</p>
+        <p class="product-price">Precio: ${{product.price}}</p>
+        <p class="product-stock">
+            Stock: 
+            {{#if (eq product.stock 0)}}
+                <span class="out-of-stock">Out of stock</span>
+            {{else}}
+                {{product.stock}}
+            {{/if}}
+        </p>
+        {{#if (gt product.stock 0)}}
+            <button class="btn btn-primary add-to-cart" data-id="{{product._id}}">
+                <i class="fas fa-shopping-cart"></i> Añadir al carrito
+            </button>
+        {{/if}}
+    {{else}}
+        <p>Producto no encontrado</p>
+    {{/if}}
 </div>
 
 <script>
-    document.querySelector('.btn-primary').addEventListener('click', async function() {
-        const productId = this.getAttribute('data-id');
-        try {
-            const response = await fetch('/api/carts/add', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ productId, quantity: 1 }),
-            });
-            if (response.ok) {
-                await rockAlert.success('¡Producto añadido al carrito! ¡Increíble Elección!');
-                checkAuth(); // Actualiza el contador del carrito
-            } else {
-                throw new Error('Error al añadir al carrito');
+document.addEventListener('DOMContentLoaded', function() {
+    const addToCartButton = document.querySelector('.add-to-cart');
+    
+    if (addToCartButton) {
+        addToCartButton.addEventListener('click', async function() {
+            const productId = this.getAttribute('data-id');
+            try {
+                const response = await fetch('/api/carts/add', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ productId, quantity: 1 }),
+                });
+                
+                if (response.ok) {
+                    await rockAlert.success('¡Producto añadido al carrito! ¡Increíble Elección!');
+                    await updateCartCount(); // Add this line to update the cart count
+                    if (typeof checkAuth === 'function') {
+                        checkAuth();
+                    }
+                } else {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Error al añadir al carrito');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                await rockAlert.error(error.message || 'Error al añadir al carrito');
             }
-        } catch (error) {
-            console.error('Error:', error);
-            await rockAlert.error('Error al añadir al carrito');
+        });
+    }
+});
+
+    async function updateCartCount() {
+    try {
+        const response = await fetch('/api/carts/count');
+        const data = await response.json();
+        const cartCount = data.count;
+        const cartCountElement = document.getElementById('cartCount');
+        if (cartCountElement) {
+            cartCountElement.textContent = cartCount;
         }
-    });
+    } catch (error) {
+        console.error('Error updating cart count:', error);
+    }
+}
 </script>

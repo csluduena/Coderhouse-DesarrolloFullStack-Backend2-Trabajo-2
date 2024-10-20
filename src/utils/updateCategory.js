@@ -1,6 +1,6 @@
 import mongoose, { Types } from 'mongoose'; 
 import dotenv from 'dotenv';
-import { Category } from '../dao/models/category.model.js'; // Cambiado a exportación nombrada
+import Category from '../dao/models/category.model.js'; // Cambiado a exportación nombrada
 
 // Cargar las variables de entorno desde .env
 dotenv.config();
@@ -18,14 +18,16 @@ const mongoUrl = process.env.MONGODB_URI;
 
 //! IDs de los productos a agregar en la categoría
 const productIds = [
-    "671093515e89e43d81961e5b",
-    "671093515e89e43d81961e5a",
-    "671093515e89e43d81961e59",
-    "671093515e89e43d81961e58"
+    // "671093515e89e43d81961e5b",
+    "6712cf675e89e43d81961e8b"
+    // "671093515e89e43d81961e59",
+    // "671093515e89e43d81961e58"
 ];
 
 // Nombre de la categoría que deseas actualizar
-const categoryName = "Bass"; //! Cambiarlo según sea necesario
+const categoryName = "Drums"; //! Cambiarlo según sea necesario
+// const categoryName = "Bass"; //! Cambiarlo según sea necesario
+
 
 
 

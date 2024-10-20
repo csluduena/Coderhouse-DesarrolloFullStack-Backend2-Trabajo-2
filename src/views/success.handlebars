@@ -1,6 +1,6 @@
 <div class="success-container"
     style="display: flex;flex-direction: column;align-items: center;background-color: #000000cf;margin-left: 25%;margin-right: 25%;padding: 2rem;border-radius: 2rem;border: 2px solid white;">
-    <h1 class="tituloLog">¡Compra Exitosa!</h1>
+    <h1 class="tituloLog" style="color: yellow;">¡Compra Exitosa!</h1>
     <div class="ticket-details" style="text-align: center;">
         <h2>Detalles del Ticket</h2>
         <h3>Ticket: {{ticket.code}}</h3>
@@ -17,15 +17,18 @@
         {{/each}}
     </ul>
     {{/if}}
-
-    {{#if failedItems.length}}
-    <h4>Artículos no procesados por falta de stock:</h4>
-    <ul>
-        {{#each failedItems}}
-        <li>{{this.product.title}} - Cantidad: {{this.quantity}}</li>
-        {{/each}}
-    </ul>
-    {{/if}}
+    
+    <div class="rojo" style="background-color: rgba(255, 0, 0, 0.111); padding: 15px; border-radius: 1rem; margin-top: 15px;">
+        {{#if failedItems.length}}
+        
+        <h4 style="text-align:center">⚠️Artículos no procesados por falta de stock:⚠️</h4><br>
+        <ul>
+            {{#each failedItems}}
+            <div style="text-align:center;"> {{this.product.title}} - Cantidad: {{this.quantity}}</div>
+            {{/each}}
+        </ul>
+        {{/if}}
+    </div>
 
 
     <a href="/products" class="btn btn-primary" style="display: flex;width: 13rem;justify-content: center;">Seguir

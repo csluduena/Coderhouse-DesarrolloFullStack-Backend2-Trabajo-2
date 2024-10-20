@@ -6,7 +6,7 @@ const router = Router();
 
 router.use(isAuthenticated, isAdmin);
 
-router.get('/stock', getAdminStockPage);
-router.get('/categories', getCategories);
+router.get('/stock', getAdminStockPage, isAdmin, );
+router.get('/categories', isAuthenticated, isAdmin , getCategories);
 
 export default router;

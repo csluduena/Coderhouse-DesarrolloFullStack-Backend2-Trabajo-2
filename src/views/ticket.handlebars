@@ -1,20 +1,47 @@
 <div class="ticket-container">
-    <h1 class="tituloLog">Ticket de Compra</h1>
-    <div class="ticket-info">
-        <p><strong>Código:</strong> {{ticket.code}}</p>
-        <p><strong>Fecha de Compra:</strong> {{formatDate ticket.purchase_datetime}}</p>
-        <p><strong>Total:</strong> ${{ticket.amount}}</p>
-        <p><strong>Comprador:</strong> {{ticket.purchaser}}</p>
+    <h1 class="tituloLog" style="color: yellow;">¡Compra Exitosa!</h1>
+    <div class="ticket-content">
+        <div class="ticket-info">
+            <h2>Detalles del Ticket</h2>
+            <p><strong>Código:</strong> <span class="ticket-code">{{ticket.code}}</span></p>
+            <p><strong>Fecha de Compra:</strong> <span class="ticket-date">{{formatDate ticket.purchase_datetime}}</span></p>
+            <p><strong>Total:</strong> <span class="ticket-total">${{ticket.amount}}</span></p>
+            <p><strong>Comprador:</strong> <span class="ticket-purchaser">{{ticket.purchaser}}</span></p>
+        </div>
+
+        {{#if purchasedItems.length}}
+        <div class="purchased-items">
+            <h3>Artículos comprados:</h3>
+            <ul class="item-list">
+                {{#each purchasedItems}}
+                <li class="item">
+                    <span class="item-title">{{this.product.title}}</span>
+                    <span class="item-quantity">Cantidad: {{this.quantity}}</span>
+                </li>
+                {{/each}}
+            </ul>
+        </div>
+        {{/if}}
+
+        {{#if failedItems.length}}
+        <div class="rojo" style="background-color: rgba(255, 0, 0, 0.289); text-align:center">
+            <div class="failed-items">
+                <h4 style="text-align:center">⚠️Artículos no procesados por falta de stock:</h4>
+                <ul class="item-list">
+                    {{#each failedItems}}
+                    <div class="item">
+                        <span class="item-title">{{this.product.title}}</span>
+                        <span class="item-quantity">Cantidad: {{this.quantity}}</span>
+                    </div>
+                    {{/each}}
+                </ul>
+            </div>
+        </div>
+        {{/if}}
     </div>
-    {{#if failedItems.length}}
-    <div class="failed-items">
-        <h2>Productos no procesados por falta de stock:</h2>
-        <ul>
-            {{#each failedItems}}
-            <li>{{this.product.title}} - Cantidad: {{this.quantity}}</li>
-            {{/each}}
-        </ul>
+
+    <div class="actions">
+        <a href="/products" class="btn btn-primary">Seguir Comprando</a>
+        <a href="/cart" class="btn btn-secondary">Volver al Carrito</a>
     </div>
-    {{/if}}
-    <a href="/products" class="btn btn-primary">Seguir Comprando</a>
 </div>

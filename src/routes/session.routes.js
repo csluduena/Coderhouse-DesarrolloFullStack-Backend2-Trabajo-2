@@ -11,7 +11,6 @@ router.post("/logout", logout);
 router.get("/current", isAuthenticated, getCurrentUser);
 router.get("/user", isAuthenticated, getCurrentUser);
 
-// Añade esta nueva ruta
 router.get("/check-auth", isAuthenticated, (req, res) => {
     res.json({ isAuthenticated: true, user: req.user });
 });

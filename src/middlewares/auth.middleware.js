@@ -8,19 +8,10 @@ config();
 const jwtSecret = process.env.JWT_SECRET;
 
 export const isAuthenticated = (req, res, next) => {
-    const token = req.cookies['token'];
-    if (!token) {
-        return res.status(ERROR_CODES.UNAUTHORIZED).redirect('/login');
+    if (req.isAuthenticated()) {
+        return next();
     }
-
-    try {
-        const decoded = jwt.verify(token, jwtSecret);
-        req.user = decoded;
-        next();
-    } catch (error) {
-        res.clearCookie('token');
-        return res.status(ERROR_CODES.UNAUTHORIZED).redirect('/login');
-    }
+    res.status(401).json({ message: 'Unauthorized' });
 };
 
 export const isAdmin = (req, res, next) => {
@@ -43,14 +34,18 @@ export const checkUserSession = (req, res, next) => {
     const token = req.cookies['token'];
 
     if (!token) {
+        res.locals.user = null;
         return next();
     }
 
     jwt.verify(token, jwtSecret, (err, decoded) => {
         if (err) {
+            res.locals.user = null;
             return next();
         }
 
-        return res.redirect('/api/sessions/current');
+        req.user = decoded;
+        res.locals.user = decoded;
+        return next();
     });
 };

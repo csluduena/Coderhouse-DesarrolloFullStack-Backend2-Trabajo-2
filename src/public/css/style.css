@@ -14,79 +14,33 @@
     padding: 0;
 }
 
+.display-3 {
+    font-size: 7rem !important;
+    font-family: 'Metal Mania', cursive !important;
+    text-shadow: 0 0 10px var(--primary-color);
+    animation: glow 2s ease-in-out infinite alternate;
+}
+
+.rock-title {
+    font-family: 'Metal Mania', cursive;
+    text-shadow: 0 0 10px var(--primary-color);
+    animation: glow 2s ease-in-out infinite alternate;
+}
+
 a {
     text-decoration: none;
-    /* Quita el subrayado */
     color: inherit;
-    /* Mantiene el color del texto del entorno, elimina el color violeta por defecto */
 }
 
 a:visited {
     color: inherit;
-    /* Evita que los enlaces visitados se pongan en violeta */
 }
 
 a:hover {
     color: inherit;
-    /* Mantiene el color al pasar el cursor sobre el enlace */
     text-decoration: none;
-    /* Asegura que no aparezca subrayado al pasar el cursor */
 }
 
-/*
-body {
-    font-family: 'Roboto', sans-serif;
-    background-color: var(--background-color);
-    color: var(--text-color);
-
-}
-
-body {
-    background: url('/img/rock-background.png') no-repeat center center;
-    background-size: cover;
-    
-    margin: 0;
-    padding-top: [altura-del-header];
-
-    padding-bottom: [altura-del-footer];
-
-    overflow-x: hidden;
-
-}
-
-html,
-body {
-    height: 100%;
-
-}
-header {
-    background: linear-gradient(to right, var(--secondary-color), var(--primary-color));
-    padding: 1rem 0;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-
-footer {
-    background-color: var(--secondary-color);
-    color: var(--text-color);
-    padding: 2rem 0;
-    margin-top: 2%;
-}
-
-.tituloLog {
-    font-family: 'Metal Mania', cursive;
-    font-size: 4.5rem;
-    color: #000000;
-    text-align: center;
-    margin-bottom: -1%;
-    margin-top: 2%;
-    text-shadow: 0 0 10px var(--primary-color);
-    animation: glow 1s ease-in-out infinite alternate;
-}
-
-*/
-
-/* Ajustes generales */
 html,
 body {
     height: 100%;
@@ -96,13 +50,12 @@ body {
 
 body {
     font-family: 'Roboto', sans-serif;
-    color: var(--text-color);
+    color: var(--text-color) !important;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
 
-/* Estilos para el fondo fijo */
 body::before {
     content: "";
     position: fixed;
@@ -115,7 +68,6 @@ body::before {
     z-index: -1;
 }
 
-/* Ajustes para el header */
 header {
     background: linear-gradient(to right, var(--secondary-color), var(--primary-color));
     padding: 1rem 0;
@@ -124,7 +76,6 @@ header {
     z-index: 1000;
 }
 
-/* Ajustes para el contenido principal */
 main {
     flex: 1 0 auto;
     padding: 2rem 0;
@@ -132,7 +83,6 @@ main {
     z-index: 1;
 }
 
-/* Ajustes para el footer */
 footer {
     background-color: var(--secondary-color);
     color: var(--text-color);
@@ -141,34 +91,43 @@ footer {
     z-index: 1;
 }
 
-/* Asegurarse de que el contenido sea legible sobre el fondo */
 .home-container,
 .product-grid,
 .auth-container,
 .rock-session-container {
     background-color: rgba(18, 18, 18, 0);
-    /* Fondo semi-transparente */
     padding: 2rem;
     border-radius: 10px;
     margin-bottom: 2rem;
 }
 
-/* Ajuste para el título principal */
 .tituloLog {
     font-family: 'Metal Mania', cursive;
     font-size: 4.5rem;
-    color: #040404;
+    color: #ffd700;
     text-align: center;
     margin-bottom: 2rem;
     text-shadow: 2px 2px 4px var(--secondary-color), 0 0 10px var(--primary-color);
     animation: glow 1s ease-in-out infinite alternate;
 }
 
+.h2Animated {
+    color: red;
+    text-shadow: 2px 2px 4px yellow, 0 0 10px #20c42d;
+    animation: glowCustom 2s ease-in-out infinite alternate;
+}
 
+@keyframes glowCustom {
+    0% {
+        text-shadow: 2px 2px 4px yellow, 0 0 10px #20c42d;
+        filter: brightness(1);
+    }
+    100% {
+        text-shadow: 2px 2px 4px yellow, 0 0 10px #20c42d;
+        filter: brightness(1.2);
+    }
+}
 
-/* Mantener los estilos existentes para otros elementos... */
-
-/* Ajustes adicionales para mejorar la legibilidad */
 .product-card,
 .guitar-type-card {
     background: rgba(26, 26, 26, 0.9);
@@ -178,7 +137,6 @@ footer {
     background: linear-gradient(45deg, rgba(255, 65, 54, 0.9), rgba(26, 26, 26, 0.9));
 }
 
-/* Asegurarse de que los botones y enlaces sean visibles */
 .btn,
 nav ul li a {
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
@@ -186,7 +144,6 @@ nav ul li a {
 
 .main-content {
     min-height: calc(100vh - [altura-del-header] - [altura-del-footer]);
-    /* Calcula el espacio disponible */
 }
 
 .container {
@@ -195,9 +152,6 @@ nav ul li a {
     margin: 0 auto;
     padding: 0 1rem;
 }
-
-/* Header styles */
-
 
 .header-content {
     display: flex;
@@ -235,26 +189,6 @@ nav ul li a:hover {
     text-shadow: 0 0 10px var(--accent-color);
 }
 
-/* Main content styles */
-/* main {
-    padding: 2rem 0;
-} */
-
-/* .tituloLog {
-    font-family: 'Metal Mania', cursive;
-    font-size: 4.5rem;
-    color: var(--primary-color);
-    text-align: center;
-    margin-bottom: -1%;
-    margin-top: 2%;
-    text-shadow: 2px 2px 4px var(--secondary-color);
-} */
-
-
-
-/* Product grid */
-
-
 .product-card {
     background: linear-gradient(145deg, #2a2a2a, #1a1a1a);
     border-radius: 15px;
@@ -270,8 +204,9 @@ nav ul li a:hover {
 
 .product-card img {
     width: 100%;
-    height: 200px;
+    height: auto;
     object-fit: cover;
+    padding: 1rem;
     border-bottom: 3px solid var(--primary-color);
 }
 
@@ -280,7 +215,7 @@ nav ul li a:hover {
 }
 
 .product-card h3 {
-    font-family: 'Metal Mania', cursive;
+    font-family: 'Metal Mania', cursive !important;
     font-size: 1.5rem;
     color: var(--accent-color);
     margin-bottom: 0.5rem;
@@ -298,32 +233,27 @@ nav ul li a:hover {
     margin-bottom: 1rem;
 }
 
-/* Buttons */
 .btn {
     margin: 1rem;
     padding: 1rem;
     display: inline-block;
-    /* padding: 3.5px 11px; */
-    font-size: leg;
-    background-color: var(--primary-color);
-    color: var(--text-color);
-    text-decoration: none;
+    font-size: 1em !important;
+    background-color: var(--primary-color) !important;
+    color: var(--text-color) !important;
+    text-decoration: none !important;
     border-radius: 5px;
-    /* margin-top: 27px; */
-    transition: all 0.3s ease;
-    border: none;
-    cursor: pointer;
+    transition: all 0.3s ease !important;
+    border: none !important;
+    cursor: pointer !important;
     font-weight: bold;
     text-transform: uppercase;
 }
 
 .btn:hover {
-    background-color: var(--accent-color);
-    color: var(--secondary-color);
-    transform: scale(1.05);
+    background-color: var(--accent-color) !important;
+    color: var(--secondary-color) !important;
+    transform: scale(1.05) !important;
 }
-
-
 
 .footer-content {
     display: flex;
@@ -356,7 +286,6 @@ nav ul li a:hover {
     color: #888888;
 }
 
-/* Responsive design */
 @media (max-width: 768px) {
     .header-content {
         flex-direction: column;
@@ -375,7 +304,6 @@ nav ul li a:hover {
     }
 }
 
-/* Animations */
 @keyframes pulse {
     0% {
         transform: scale(1);
@@ -394,7 +322,6 @@ nav ul li a:hover {
     animation: pulse 2s infinite;
 }
 
-/* config extra*/
 .subCont {
     display: flex;
     margin: 10px;
@@ -453,19 +380,17 @@ nav ul li a:hover {
     margin-bottom: 1rem;
 }
 
-/*Estilos para Home.Handlebars y /current */
-
-/* Estilos para home.handlebars */
 .home-container {
     max-width: 1200px;
     margin: 0 auto;
-    /* padding: 2rem; */
 }
 
 .featured-brands,
 .guitar-types,
 .cta-section {
-    margin-bottom: 4rem;
+    margin-top: 0px !important;
+    padding-bottom: 2rem;
+    margin-bottom: 0px !important;
 }
 
 .brand-logos {
@@ -521,18 +446,13 @@ nav ul li a:hover {
     text-align: center;
     background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
     padding: 1rem;
-    /* border-radius: 10px; */
     color: var(--text-color);
 }
 
-/* Estilos para la vista de sessions/current */
 .rock-session-container {
     text-align: center;
-    /* padding: 3rem; */
-    /* background: url(/img/rock-background.png) no-repeat center center; */
     background-size: cover;
     color: var(--text-color);
-    /* min-height: 100vh; */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -545,10 +465,12 @@ nav ul li a:hover {
 
 .rock-title {
     font-size: 16rem;
-    font-family: 'Metal Mania', cursive;
+    font-family: 'Metal Mania', cursive !important;
     text-shadow: 0 0 10px var(--primary-color);
     animation: glow 2s ease-in-out infinite alternate;
 }
+
+
 
 .rock-message {
     font-size: 1.5rem;
@@ -575,7 +497,6 @@ nav ul li a:hover {
     padding: 1rem 2rem;
 }
 
-/* Estilos para la cuadrícula de productos */
 .product-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -583,38 +504,6 @@ nav ul li a:hover {
     margin-top: 3%;
 }
 
-.product-card {
-    background: linear-gradient(145deg, #2a2a2a, #1a1a1a);
-    border-radius: 15px;
-    overflow: hidden;
-    transition: all 0.3s ease;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-}
-
-.product-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 15px 30px rgba(255, 65, 54, 0.3);
-}
-
-.product-card img {
-    padding: 8px;
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    border-bottom: 3px solid var(--primary-color);
-}
-
-.product-info {
-    padding: 1rem;
-}
-
-.product-buttons {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 1rem;
-}
-
-/* Estilos para la página de detalles del producto */
 .product-details {
     max-width: 1200px;
     margin: 0 auto;
@@ -672,14 +561,6 @@ nav ul li a:hover {
     display: flex;
 }
 
-.featured-brands,
-.guitar-types,
-.cta-section {
-    margin-top: 0px !important;
-    padding-bottom: 2rem;
-    margin-bottom: 0px !important;
-}
-
 .pagination {
     text-align: center;
     margin-top: 2%;
@@ -726,4 +607,264 @@ nav ul li a:hover {
 
 .mainB {
     background-color: #0000007d;
+}
+
+/* Nuevos estilos para la página de administración de stock */
+.admin-panel {
+    background-color: rgba(26, 26, 26, 0.9);
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.category-selector {
+    margin-bottom: 20px;
+}
+
+.product-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    text-align: center;
+    cursor:pointer;
+}
+
+.product-item {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+    font-size: 15px !important;
+    padding: 10px;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+}
+
+.flexTime {
+    display: flex;
+}
+
+.flexCnt {
+    display: flex;
+}
+
+.product-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(255, 65, 54, 0.3);
+}
+
+.product-details {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.stock-control {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.button-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+/* Estilos adicionales para la página de productos */
+.products-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.filters {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.product-image {
+    width: 100%;
+    height: 368px;
+    object-fit: cover;
+}
+
+.product-title {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
+.product-category,
+.product-stock {
+    font-size: 0.9rem;
+    color: #888;
+}
+
+.product-price {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin: 10px 0;
+}
+
+.product-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+/* Estilos para la página de ticket */
+.ticket-container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: rgba(26, 26, 26, 0.9);
+    border-radius: 10px;
+    padding: 30px;
+    color: #fff;
+}
+
+.ticket-content {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.ticket-info,
+.purchased-items,
+.failed-items {
+    flex-basis: 48%;
+}
+
+.ticket-code,
+.ticket-total {
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+.item-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.item {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.item-title {
+    font-weight: bold;
+}
+
+.item-quantity {
+    float: right;
+}
+
+.actions {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 30px;
+}
+
+/* Estilos generales mejorados */
+.form-control {
+    display: flex !important;
+    justify-content: center !important; /* Centra horizontalmente */
+    align-items: center !important;     /* Centra verticalmente */
+    width: 22% !important;
+    text-align: center !important;
+    padding: .375rem .75rem !important;
+    font-size: 1rem !important;
+    font-weight: 400 !important;
+    line-height: 1.5 !important;
+    color: var(--bs-body-color) !important;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    appearance: none !important;
+    background-color: var(--bs-body-bg) !important;
+    background-clip: padding-box !important;
+    border: var(--bs-border-width) solid var(--bs-border-color) !important;
+    border-radius: var(--bs-border-radius) !important;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out !important;
+    cursor: pointer !important;
+}
+
+
+
+.form-controlLo {
+    display: flex !important;
+    justify-content: center !important; /* Centra horizontalmente */
+    align-items: center !important;     /* Centra verticalmente */
+    width: 100% !important;
+    text-align: center !important;
+    padding: .375rem .75rem !important;
+    font-size: 1rem !important;
+    font-weight: 400 !important;
+    line-height: 1.5 !important;
+    color: var(--bs-body-color) !important;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    appearance: none !important;
+    background-color: var(--bs-body-bg) !important;
+    background-clip: padding-box !important;
+    border: var(--bs-border-width) solid var(--bs-border-color) !important;
+    border-radius: var(--bs-border-radius) !important;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out !important;
+    cursor: pointer !important;
+}
+
+.filtersCent {
+    display:flex !important;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.form-control:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--primary-color);
+}
+
+.error-message {
+    background-color: rgba(255, 0, 0, 0.2);
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+.colorBlack {
+    color: black;
+}
+
+/* Añadir al final del archivo */
+
+.btn-out-of-stock {
+    background-color: #888;
+    cursor: not-allowed;
+}
+
+.product-card {
+    position: relative;
+}
+
+.out-of-stock-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
 }

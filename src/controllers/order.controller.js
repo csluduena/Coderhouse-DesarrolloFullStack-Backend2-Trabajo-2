@@ -1,14 +1,9 @@
-// import Order from '../dao/models/order.model.js';
-// import Cart from '../dao/models/cart.model.js';
-// import { generateUniqueCode, calculateTotalAmount } from '../utils/util.js';
-// import { sendOrderConfirmationEmail } from '../services/email.service.js';
-// import { ERROR_CODES, ERROR_MESSAGES } from '../utils/errorCodes.js';
-
 import { CartRepository } from '../dao/repositories/cart.repository.js';
 import { ProductRepository } from '../dao/repositories/product.repository.js';
 import { TicketRepository } from '../dao/repositories/ticket.repository.js';
 import { generateUniqueCode } from '../utils/util.js';
 import { ERROR_CODES, ERROR_MESSAGES } from '../utils/errorCodes.js';
+import Order from '../dao/models/order.model.js';
 
 const cartRepository = new CartRepository();
 const productRepository = new ProductRepository();
@@ -17,38 +12,66 @@ const ticketRepository = new TicketRepository();
 export const createOrder = async (req, res) => {
     try {
         const userId = req.user._id;
-        const cart = await Cart.findOne({ user: userId }).populate('items.product');
+        const cart = await cartRepository.findByUserId(userId);
 
-        if (!cart || cart.items.length === 0) {
+        if (!cart || !cart.items || cart.items.length === 0) {
             return res.status(ERROR_CODES.BAD_REQUEST).json({ message: ERROR_MESSAGES.INVALID_QUANTITY });
         }
 
-        const orderItems = cart.items.map(item => ({
-            product: item.product._id,
-            quantity: item.quantity,
-            price: item.product.price
-        }));
+        let totalAmount = 0;
+        const orderItems = [];
+        const failedItems = [];
 
-        const total = calculateTotalAmount(cart.items);
-        const code = generateUniqueCode();
+        for (const item of cart.items) {
+            const product = await productRepository.findById(item.product);
+            if (product && product.stock >= item.quantity) {
+                product.stock -= item.quantity;
+                await productRepository.update(product._id, product);
+                orderItems.push({
+                    product: item.product,
+                    quantity: item.quantity,
+                    price: product.price
+                });
+                totalAmount += product.price * item.quantity;
+            } else {
+                failedItems.push(item);
+            }
+        }
 
-        const newOrder = new Order({
-            user: userId,
-            code,
-            items: orderItems,
-            total
-        });
+        if (orderItems.length > 0) {
+            const code = generateUniqueCode();
+            const newOrder = new Order({
+                user: userId,
+                code,
+                items: orderItems,
+                total: totalAmount
+            });
 
-        await newOrder.save();
+            await newOrder.save();
 
-        cart.items = [];
-        await cart.save();
+            const ticket = await ticketRepository.create({
+                code,
+                amount: totalAmount,
+                purchaser: req.user.email
+            });
 
-        await sendOrderConfirmationEmail(req.user, newOrder);
+            // Clear the cart, keeping failed items
+            await cartRepository.update(cart._id, { items: failedItems });
 
-        res.status(201).json({ message: 'Orden creada con éxito', order: newOrder });
+            res.status(201).json({
+                message: 'Order created successfully',
+                order: newOrder,
+                ticket: ticket,
+                failedItems: failedItems
+            });
+        } else {
+            res.status(ERROR_CODES.BAD_REQUEST).json({
+                message: ERROR_MESSAGES.INSUFFICIENT_STOCK,
+                failedItems: failedItems
+            });
+        }
     } catch (error) {
-        console.error('Error al crear la orden:', error);
+        console.error('Error in createOrder:', error);
         res.status(ERROR_CODES.INTERNAL_SERVER_ERROR).json({ message: ERROR_MESSAGES.SERVER_ERROR });
     }
 };
@@ -58,7 +81,7 @@ export const getOrders = async (req, res) => {
         const orders = await Order.find({ user: req.user._id }).sort({ createdAt: -1 });
         res.json(orders);
     } catch (error) {
-        console.error('Error al obtener las órdenes:', error);
+        console.error('Error in getOrders:', error);
         res.status(ERROR_CODES.INTERNAL_SERVER_ERROR).json({ message: ERROR_MESSAGES.SERVER_ERROR });
     }
 };
@@ -71,59 +94,7 @@ export const getOrderById = async (req, res) => {
         }
         res.json(order);
     } catch (error) {
-        console.error('Error al obtener la orden:', error);
-        res.status(ERROR_CODES.INTERNAL_SERVER_ERROR).json({ message: ERROR_MESSAGES.SERVER_ERROR });
-    }
-};
-
-export const finalizePurchase = async (req, res) => {
-    try {
-        const userId = req.user.userId;
-        const cart = await cartRepository.findByUserId(userId);
-
-        if (!cart || cart.items.length === 0) {
-            return res.status(ERROR_CODES.BAD_REQUEST).json({ message: ERROR_MESSAGES.EMPTY_CART });
-        }
-
-        let totalAmount = 0;
-        const failedItems = [];
-        const successItems = [];
-
-        for (const item of cart.items) {
-            const product = await productRepository.findById(item.product);
-            if (product && product.stock >= item.quantity) {
-                product.stock -= item.quantity;
-                await productRepository.update(product.id, { stock: product.stock });
-                totalAmount += product.price * item.quantity;
-                successItems.push(item);
-            } else {
-                failedItems.push(item);
-            }
-        }
-
-        if (successItems.length > 0) {
-            const ticket = await ticketRepository.create({
-                code: generateUniqueCode(),
-                amount: totalAmount,
-                purchaser: req.user.email
-            });
-
-            cart.items = failedItems;
-            await cartRepository.update(cart.id, { items: failedItems });
-
-            res.status(200).json({
-                message: 'Compra finalizada',
-                ticket: ticket,
-                failedItems: failedItems
-            });
-        } else {
-            res.status(ERROR_CODES.BAD_REQUEST).json({
-                message: ERROR_MESSAGES.NO_STOCK,
-                failedItems: failedItems
-            });
-        }
-    } catch (error) {
-        console.error('Error al finalizar la compra:', error);
+        console.error('Error in getOrderById:', error);
         res.status(ERROR_CODES.INTERNAL_SERVER_ERROR).json({ message: ERROR_MESSAGES.SERVER_ERROR });
     }
 };

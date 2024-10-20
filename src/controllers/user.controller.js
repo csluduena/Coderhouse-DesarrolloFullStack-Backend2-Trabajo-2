@@ -76,6 +76,7 @@ export const register = async (req, res) => {
         );
 
         res.cookie('token', token, { httpOnly: true, maxAge: 3600000 });
+        req.user = user;
 
         const userInfo = {
             userId: user._id,
@@ -105,37 +106,10 @@ export const login = async (req, res) => {
         const { email, password } = req.body;
         const user = await User.findOne({ email });
 
-        if (!user) {
-            return res.status(ERROR_CODES.UNAUTHORIZED).json({
-                message: ERROR_MESSAGES.INVALID_CREDENTIALS
-            });
+        if (!user || !await user.comparePassword(password)) {
+            return res.status(401).json({ message: 'Invalid credentials' });
         }
 
-        const isPasswordValid = await user.comparePassword(password);
-        if (!isPasswordValid) {
-            return res.status(ERROR_CODES.UNAUTHORIZED).json({
-                message: ERROR_MESSAGES.INVALID_CREDENTIALS
-            });
-        }
-
-        if (!user.cart) {
-            const newCart = new Cart({ user: user._id, items: [] });
-            await newCart.save();
-            user.cart = newCart._id;
-            await user.save();
-        }
-
-        const userInfo = {
-            userId: user._id,
-            first_name: user.first_name,
-            last_name: user.last_name,
-            email: user.email,
-            age: user.age,
-            role: user.role,
-            cart: user.cart
-        };
-
-        // const token = jwt.sign(userInfo, jwtSecret, { expiresIn: '1h' });
         const token = jwt.sign(
             {
                 userId: user._id,
@@ -151,21 +125,37 @@ export const login = async (req, res) => {
         );
 
         res.cookie('token', token, { httpOnly: true, maxAge: 3600000 });
+        req.user = user;
 
-        res.status(200).json({
-            message: 'Inicio de sesión exitoso',
-            user: userInfo,
-            token: token,
-            redirectUrl: '/current'
+        req.login(user, (err) => {
+            if (err) {
+                console.error('Error in req.login:', err);
+                return res.status(500).json({ message: 'Error logging in' });
+            }
+            return res.status(200).json({
+                message: 'Login successful',
+                user: {
+                    userId: user._id,
+                    first_name: user.first_name,
+                    last_name: user.last_name,
+                    email: user.email,
+                    age: user.age,
+                    role: user.role,
+                    cart: user.cart
+                },
+                token: token,
+                redirectUrl: '/current'
+            });
         });
     } catch (error) {
-        console.error('Error en el inicio de sesión:', error);
-        res.status(ERROR_CODES.INTERNAL_SERVER_ERROR).json({ message: ERROR_MESSAGES.SERVER_ERROR });
+        console.error('Error in login:', error);
+        res.status(500).json({ message: 'Internal server error' });
     }
 };
 
 export const logout = async (req, res) => {
     res.clearCookie('token');
+    res.clearCookie('connect.sid');
     res.json({ message: 'Logout exitoso', redirectUrl: '/login' });
 };
 
@@ -204,6 +194,7 @@ export const deleteUser = async (req, res) => {
             return res.status(ERROR_CODES.NOT_FOUND).json({ message: ERROR_MESSAGES.USER_NOT_FOUND });
         }
         res.clearCookie('token');
+        res.clearCookie('connect.sid');
         res.status(200).json({ message: "Usuario eliminado con éxito" });
     } catch (error) {
         res.status(ERROR_CODES.INTERNAL_SERVER_ERROR).json({ message: ERROR_MESSAGES.SERVER_ERROR });
@@ -227,6 +218,7 @@ export const githubCallback = (req, res) => {
 
     res.cookie('token', token, { httpOnly: true, maxAge: 3600000 });
     res.redirect('/current');
+    req.user = User;
 };
 
 

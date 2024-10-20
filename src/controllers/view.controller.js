@@ -1,14 +1,3 @@
-import User from '../dao/models/user.model.js';
-import Cart from '../dao/models/cart.model.js';
-import Ticket from '../dao/models/ticket.model.js';
-import ProductManager from '../dao/db/productManagerDb.js';
-import CartManager from '../dao/db/cartManagerDb.js';
-import { ERROR_CODES, ERROR_MESSAGES } from '../utils/errorCodes.js';
-
-
-const productManager = new ProductManager();
-const cartManager = new CartManager();
-
 // export const getCart = async (req, res) => {
 //     const { cid } = req.params;
 
@@ -43,6 +32,46 @@ const cartManager = new CartManager();
 //         res.status(ERROR_CODES.INTERNAL_SERVER_ERROR).render('error', { message: ERROR_MESSAGES.SERVER_ERROR });
 //     }
 // };
+
+import User from '../dao/models/user.model.js';
+import Cart from '../dao/models/cart.model.js';
+import Ticket from '../dao/models/ticket.model.js';
+import ProductManager from '../dao/db/productManagerDb.js';
+import CartManager from '../dao/db/cartManagerDb.js';
+import { ERROR_CODES, ERROR_MESSAGES } from '../utils/errorCodes.js';
+import { CategoryRepository } from '../dao/repositories/category.repository.js';
+import Product from '../dao/models/product.model.js';
+
+const productManager = new ProductManager();
+const cartManager = new CartManager();
+const categoryRepository = new CategoryRepository();
+
+export const renderHomePage = async (req, res) => {
+    try {
+        const categories = await categoryRepository.findAll();
+        const allProducts = await Product.find();
+        const featuredProducts = getRandomProducts(allProducts, 10);
+
+        console.log('User in session:', res.locals.user);
+
+        res.render('home', { 
+            user: res.locals.user,
+            categories: categories,
+            featuredProducts: featuredProducts
+        });
+
+        console.log('User object:', res.locals.user);
+        
+    } catch (error) {
+        console.error('Error al obtener categorías y productos:', error);
+        res.status(500).render('error', { message: 'Error al cargar la página de inicio' });
+    }
+};
+
+function getRandomProducts(products, count) {
+    const shuffled = products.sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, count);
+}
 
 export const renderSuccessPage = async (req, res) => {
     try {
@@ -114,6 +143,10 @@ export const getProductDetails = async (req, res) => {
 
 export const getProducts = async (req, res) => {
     try {
+        if (!req.user) {
+            // Si el usuario no está autenticado, redirigir al login
+            return res.redirect('/login');
+        }
         const page = parseInt(req.query.page) || 1;
         const limit = 3;
         const sort = req.query.sort || 'createdAt';
@@ -147,8 +180,4 @@ export const renderLoginPage = (req, res) => {
 
 export const renderRegisterPage = (req, res) => {
     res.render("register");
-};
-
-export const renderHomePage = (req, res) => {
-    res.render('home', { user: req.user });
 };

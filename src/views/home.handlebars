@@ -1,41 +1,207 @@
-<div class="home-container"></div>
-  <h1 class="tituloLog">Bienvenido a Guitar Store</h1>
-  
-  {{!-- <section class="featured-brands">
-    <h2></h2>
-    <div class="brand-logos">
-      <img src="/img/brands/fender-logo.png" alt="Fender" class="brand-logo">
-      <img src="/img/brands/gibson-logo.png" alt="Gibson" class="brand-logo">
-      <img src="/img/brands/ibanez-logo.png" alt="Ibanez" class="brand-logo">
-      <img src="/img/brands/epiphone-logo.png" alt="Taylor" class="brand-logo">
-      <img src="/img/brands/jackson-logo.png" alt="Martin" class="brand-logo">
-    </div>
-  </section> --}}
+<div class="home-container">
+    <h1 class="tituloLog">Bienvenidos a Guitar Store</h1>
 
-  <section class="guitar-types">
-    <h2></h2>
-    <div class="guitar-type-grid">
-      <div class="guitar-type-card">
-        <img src="/img/electricas.jpg" alt="Guitarras Eléctricas">
-        <h3>Eléctricas</h3>
-        <a href="/products?category=electric" class="btn btn-primary">Ver Eléctricas</a>
-      </div>
-      <div class="guitar-type-card">
-        <img src="/img/acoustic.png" alt="Guitarras Acústicas">
-        <h3>Acústicas</h3>
-        <a href="/products?category=acoustic" class="btn btn-primary">Ver Acústicas</a>
-      </div>
-      <div class="guitar-type-card">
-        <img src="/img/bass.png" alt="Bajos">
-        <h3>Bajos</h3>
-        <a href="/products?category=bass" class="btn btn-primary">Ver Bajos</a>
-      </div>
-    </div>
-  </section>
+    {{!-- <div class="imgBan">
+        <img src="/img/Los-mas-visitados.gif" alt="Los mas visitados" style="width: 100px; height: 40px;">
+    </div> --}}
 
-  <section class="cta-section">
-    <h2>¿Listo para rockear?</h2>
-    <p>Encuentra tu próxima guitarra y comienza tu viaje musical hoy.</p>
-    <a href="/products" class="btn btn-large btn-primary">Explorar Todas las Guitarras</a>
-  </section>
+    <section class="featured-products">
+        <h2 class="h2Animated" "text-align: center; color:red">Los mas visitados</h2>
+        <div class="flexCnt">
+            <div class="product-grid">
+                {{#each featuredProducts}}
+                <div class="product-card">
+                    <img src="{{this.img}}" alt="{{this.title}}" class="product-image">
+                    <div class="product-info">
+                        <h3>{{this.title}}</h3>
+                        <p class="price">${{this.price}}</p>
+                        <p class="stock">Stock: {{this.stock}}</p>
+                        <button class="btn btn-primary ver-detalles" data-id="{{this._id}}">Ver detalles</button>
+                        
+                        {{#if (gt this.stock 0)}}
+                            {{#if ../user}}
+                                <button class="btn btn-secondary add-to-cart" data-id="{{this._id}}">
+                                    Añadir al carrito
+                                </button>
+                            {{else}}
+                                <a href="/login" class="btn btn-secondary">Login to Buy</a>
+                            {{/if}}
+                        {{else}}
+                            <button class="btn btn-out-of-stock-home" disabled>
+                                Agotado
+                            </button>
+                        {{/if}}
+                    </div>
+                    {{#if (eq this.stock 0)}}
+                    <div class="out-of-stock-overlay-home">
+                        Out of Stock
+                    </div>
+                    {{/if}}
+                </div>
+                {{/each}}
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal -->
+    <div id="productModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" style="cursor: pointer; text-align:end">&times;</span>
+            <h2 id="modalTitle" style="color:yellow; font-family:Metal Mania; text-shadow: 0 0 10px var(--primary-color); animation: glow 2s ease-in-out infinite alternate; !important"></h2>
+            <img id="modalImage" src="" style="margin-top:1rem; margin-bottom:2rem; !important" alt="Product Image">
+            <p id="modalDescription"></p>
+            <p id="modalPrice"></p>
+            <p id="modalStock"></p>
+            {{#if user}}
+                <button id="modalAddToCart" class="btn btn-primary" data-id="">Añadir al carrito</button>
+            {{else}}
+                <a href="/login" class="btn btn-primary">Login to Buy</a>
+            {{/if}}
+        </div>
+    </div>
+
+    <section class="cta-section">
+        <h2>Ready to Rock?</h2>
+        <p>Find your next instrument and start your musical journey today.</p>
+        <a href="/products" class="btn btn-large btn-primary">Explore All Products</a>
+    </section>
 </div>
+
+<style>
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.modal-content {
+    background-color: #353535cf;
+    text-align: center;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 600px;
+}
+
+.btn-out-of-stock-home {
+    background-color: #888;
+    cursor: not-allowed;
+}
+
+.product-card {
+    position: relative;
+}
+
+.out-of-stock-overlay-home {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+</style>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('productModal');
+    const closeBtn = document.getElementsByClassName('close')[0];
+    const verDetallesBtns = document.querySelectorAll('.ver-detalles');
+
+    // Función para abrir el modal con los detalles del producto
+    verDetallesBtns.forEach(btn => {
+        btn.addEventListener('click', async function() {
+            const productId = this.getAttribute('data-id');
+            try {
+                const response = await fetch(`/api/products/${productId}`);
+                const product = await response.json();
+                
+                document.getElementById('modalTitle').textContent = product.title;
+                document.getElementById('modalImage').src = product.img;
+                document.getElementById('modalDescription').textContent = product.description;
+                document.getElementById('modalPrice').textContent = `$${product.price}`;
+                document.getElementById('modalStock').textContent = `Stock: ${product.stock}`;
+                
+                const modalAddToCartBtn = document.getElementById('modalAddToCart');
+                if (modalAddToCartBtn) {
+                    modalAddToCartBtn.setAttribute('data-id', product._id);
+                    modalAddToCartBtn.disabled = product.stock === 0;
+                    modalAddToCartBtn.textContent = product.stock === 0 ? 'Agotado' : 'Añadir al carrito';
+                }
+                
+                modal.style.display = 'block';
+            } catch (error) {
+                console.error('Error fetching product details:', error);
+            }
+        });
+    });
+
+    closeBtn.onclick = function() {
+        modal.style.display = 'none';
+    }
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = 'none';
+        }
+    }
+
+    // Función única para añadir al carrito
+    async function addToCart(productId) {
+        try {
+            const response = await fetch('/api/carts/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ productId, quantity: 1 }),
+            });
+            
+            if (response.ok) {
+                await rockAlert.success('¡Producto añadido al carrito!');
+                await updateCartCount(); // Actualizar el contador del carrito
+                if (typeof checkAuth === 'function') {
+                    checkAuth();
+                }
+            } else {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Error al añadir al carrito');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            await rockAlert.error(error.message);
+        }
+    }
+
+    // Agregar el evento de clic al botón "Añadir al carrito" en la vista principal
+    document.querySelectorAll('.add-to-cart').forEach(button => {
+        button.addEventListener('click', function() {
+            const productId = this.getAttribute('data-id');
+            addToCart(productId);
+        });
+    });
+
+    // Agregar el evento de clic al botón "Añadir al carrito" en el modal
+    const modalAddToCartBtn = document.getElementById('modalAddToCart');
+    if (modalAddToCartBtn) {
+        modalAddToCartBtn.addEventListener('click', function() {
+            const productId = this.getAttribute('data-id');
+            addToCart(productId);
+        });
+    }
+});
+</script>
