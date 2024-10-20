@@ -10,8 +10,8 @@ export async function repairCarts() {
                 console.log(`Repaired cart ${cart._id}`);
             }
         }
-        console.log('Cart repair process completed');
+        //console.log('Cart repair process completed');
     } catch (error) {
-        console.error('Error repairing carts:', error);
+        //console.error('Error repairing carts:', error);
     }
 }
