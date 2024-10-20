@@ -2,7 +2,7 @@
 
 ## Descripción del Proyecto
 
-Este proyecto es la continuación y cuarta entrega del curso de Backend, ahora para Backend 2. Guitar Store es una aplicación de comercio electrónico especializada en instrumentos musicales, específicamente guitarras. Esta versión incorpora funcionalidades avanzadas de autenticación, manejo de sesiones y gestión de carritos de compra.
+Este proyecto es la cuarta entrega del curso de Backend, avanzando con nuevas funcionalidades para una tienda online especializada en instrumentos musicales, principalmente guitarras. Se han implementado mejoras en la seguridad, autenticación, manejo de sesiones y carritos de compra para ofrecer una experiencia robusta y escalable.
 
 ## Características Principales
 
@@ -14,7 +14,7 @@ Este proyecto es la continuación y cuarta entrega del curso de Backend, ahora p
    - Encriptación de contraseñas utilizando bcrypt.
 
 3. **Autenticación Avanzada**:
-   - Implementación de estrategias de Passport.
+   - Implementación de estrategias con Passport.
    - Sistema de login con JWT (JSON Web Tokens).
 
 4. **Manejo de Sesiones**:
@@ -25,7 +25,7 @@ Este proyecto es la continuación y cuarta entrega del curso de Backend, ahora p
    - Modelo de carrito con campos `id` y `productos`.
    - Funcionalidades para agregar, eliminar y obtener productos del carrito de un usuario.
 
-## Endpoints
+## *** Endpoints ***
 
 ### Sesiones y Autenticación
 
@@ -48,10 +48,6 @@ Este proyecto es la continuación y cuarta entrega del curso de Backend, ahora p
 - `GET /api/products`: Listar todos los productos.
 - `GET /api/products/:pid`: Obtener un producto específico.
 - `PUT /api/products/:pid`: Actualizar un producto (requiere bearer token).
-
-### Usuarios
-
-- `DELETE /api/users/`: Eliminar un usuario (requiere bearer token).
 
 ## Tecnologías Utilizadas
 
@@ -113,23 +109,6 @@ GitHub: [github.com/csluduena](https://github.com/csluduena)
 
 Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más detalles.
 
-## Guitar Store Project Overview
-
-## Project Structure
-
-The project follows a typical MVC (Model-View-Controller) structure:
-
-- `src/`
-  - `controllers/`: Contains logic for handling requests
-  - `dao/`: Data Access Objects for database operations
-  - `models/`: Mongoose schemas for database models
-  - `routes/`: Express routes for different API endpoints
-  - `views/`: Handlebars templates for rendering pages
-  - `middlewares/`: Custom middleware functions
-  - `utils/`: Utility functions and constants
-  - `config/`: Configuration files
-  - `public/`: Static assets (CSS, client-side JS)
-
 ## Key Implementations
 
 1. **User Authentication**
@@ -160,10 +139,52 @@ The project follows a typical MVC (Model-View-Controller) structure:
 ## Notable Changes
 
 1. Implemented the Ticket model and related functionality
+
 2. Added a finalize purchase route in cart controller
+
 3. Updated views to support new features (e.g., success page after purchase)
+
 4. Improved error handling and added more specific error messages
+
 5. Implemented role-based authorization (admin and user roles)
+
+6. Added setAdmin.js script to easily assign the admin role to a user.
+
+7. This script takes a user ID as an argument and updates the user's role to "admin" in the database.
+To use it, run node `src/utils/setAdmin.js` `<userId>` in your terminal, replacing `<userId>` with the actual ID of the user you want to make an admin.
+Added updateCategory.js script to add product IDs to a category.
+
+8. This script takes an array of product IDs and a category name as input.
+It updates the specified category in the database to include the provided product IDs.
+To use it, modify the productIds and categoryName variables in the script and then run node `src/utils/updateCategory.js` in your terminal.
+Added cartRepair.js script to fix carts that might have items as undefined.
+
+9. This script finds all carts in the database and checks if the items property is an array.
+If items is not an array, it sets it to an empty array and saves the cart.
+This script is useful to fix any inconsistencies in the cart data.
+Sistema de Agregado de Stock para Administrador
+Este sistema permite a los administradores actualizar el stock de los productos a través de la página de administración de stock (/admin/stock).
+
+## Funcionalidad
+
+1. Los administradores pueden seleccionar una categoría de producto para ver los productos asociados.
+2. Al hacer clic en un producto, se muestra un formulario con el stock actual y un campo para ingresar el nuevo stock.
+3. Al hacer clic en "Actualizar Stock", se envía una solicitud PUT a la ruta `/api/products/:pid` con el nuevo stock.
+4. El servidor actualiza el stock del producto en la base de datos y devuelve el producto actualizado.
+6. La página de administración de stock se actualiza para mostrar el nuevo stock.
+
+## Implementación
+
+1. La página de administración de stock se encuentra en la ruta `/admin/stock` y utiliza la vista admin/stock.handlebars.
+2. La lógica del lado del cliente se encuentra en el archivo `public/js/admin-stock.js`.
+3. El controlador que maneja la solicitud PUT se encuentra en `src/controllers/product.controller.js`.
+4. El repositorio que interactúa con la base de datos se encuentra en `src/dao/repositories/product.repository.js`.
+
+## Consideraciones
+
+1. Solo los usuarios con el rol "admin" pueden acceder a la página de administración de stock.
+2. El sistema de autenticación y autorización se encarga de verificar el rol del usuario antes de permitir el acceso.
+3. El sistema de manejo de errores se encarga de capturar y mostrar cualquier error que ocurra durante el proceso de actualización del stock.
 
 ## Example of New Implementation: Ticket Model
 
@@ -174,48 +195,23 @@ This model represents a purchase ticket, storing information about each successf
 The Guitar Store project has been significantly enhanced with new features and improved architecture. The implementation of DTOs, repositories, and the ticket system has made the application more robust and scalable. Future improvements could include more advanced product filtering, user reviews, and integration with payment gateways.
 
 
+## Project Structure
+
+The project follows a typical MVC (Model-View-Controller) structure:
+
+- `src/`
+  - `controllers/`: Contains logic for handling requests
+  - `dao/`: Data Access Objects for database operations
+  - `models/`: Mongoose schemas for database models
+  - `routes/`: Express routes for different API endpoints
+  - `views/`: Handlebars templates for rendering pages
+  - `middlewares/`: Custom middleware functions
+  - `utils/`: Utility functions and constants
+  - `config/`: Configuration files
+  - `public/`: Static assets (CSS, client-side JS)
+
 ```
-FUNCIONAL
-├─ .git
-│  ├─ COMMIT_EDITMSG
-│  ├─ config
-│  ├─ description
-│  ├─ FETCH_HEAD
-│  ├─ HEAD
-│  ├─ hooks
-│  │  ├─ applypatch-msg.sample
-│  │  ├─ commit-msg.sample
-│  │  ├─ fsmonitor-watchman.sample
-│  │  ├─ post-update.sample
-│  │  ├─ pre-applypatch.sample
-│  │  ├─ pre-commit.sample
-│  │  ├─ pre-merge-commit.sample
-│  │  ├─ pre-push.sample
-│  │  ├─ pre-rebase.sample
-│  │  ├─ pre-receive.sample
-│  │  ├─ prepare-commit-msg.sample
-│  │  ├─ push-to-checkout.sample
-│  │  ├─ sendemail-validate.sample
-│  │  └─ update.sample
-│  ├─ index
-│  ├─ info
-│  │  └─ exclude
-│  ├─ logs
-│  │  ├─ HEAD
-│  │  └─ refs
-│  │     ├─ heads
-│  │     │  └─ main
-│  │     └─ remotes
-│  │        └─ origin
-│  │           └─ main
-│  ├─ ORIG_HEAD
-│  └─ refs
-│     ├─ heads
-│     │  └─ main
-│     ├─ remotes
-│     │  └─ origin
-│     │     └─ main
-│     └─ tags
+GuitarStore4-2
 ├─ .gitignore
 ├─ INFO ENV Y MONGODB.txt
 ├─ package-lock.json
@@ -261,41 +257,10 @@ FUNCIONAL
    │  │  └─ style.css
    │  ├─ img
    │  │  ├─ acoustic.png
-   │  │  ├─ Alexi-Hexed-1.jpg
-   │  │  ├─ banner.png
-   │  │  ├─ bass.png
-   │  │  ├─ bgt.png
-   │  │  ├─ bgtB - copia.png
-   │  │  ├─ brands
-   │  │  │  ├─ epiphone-logo.png
-   │  │  │  ├─ fender-logo.png
-   │  │  │  ├─ gibson-logo.png
    │  │  │  ├─ ibanez-logo.png
    │  │  │  └─ jackson-logo.png
-   │  │  ├─ carpiLoco.gif
-   │  │  ├─ carrito.png
-   │  │  ├─ carritoICO.png
-   │  │  ├─ carritoICO2.png
-   │  │  ├─ electricas.jpg
-   │  │  ├─ ESP-LTD-Alexi-Hexed.png
-   │  │  ├─ esp-ltd-kh-v-rdsp-kirk-hammett-guitarra-electrica-red-sparkle.jpg
-   │  │  ├─ esp-ltd-kh-v-rdsp-kirk-hammett-red-sparkle.png
-   │  │  ├─ fender-american-BurstRW.png
-   │  │  ├─ GibsonLesPaul50sTribute2016T.png
    │  │  ├─ GibsonLesPaulStudio2016T.png
-   │  │  ├─ GibsonLesPaulTraditional2016T.png
-   │  │  ├─ GibsonSGFaded2016T.png
-   │  │  ├─ GibsonSGStandard2016T.png
-   │  │  ├─ guitarBann.gif
-   │  │  ├─ guitarBannW.gif
-   │  │  ├─ guitarBannW2.gif
-   │  │  ├─ photo-1516924962500-2b4b3b99ea02.avif
-   │  │  ├─ PlayerStrat3-ColourSunburstPF.png
-   │  │  ├─ rock-background.png
-   │  │  ├─ wallG.jpg
-   │  │  ├─ wallG2.png
-   │  │  ├─ wallGBlurred.jpg
-   │  │  └─ wallGBlurred.png
+   │  │  └─ GibsonSGStandard2016T.png
    │  └─ js
    │     ├─ main.js
    │     └─ rockAlerts.js
@@ -317,12 +282,12 @@ FUNCIONAL
    └─ views
       ├─ admin
       │  └─ stock.handlebars
+      ├─ layouts
+      │  └─ main.handlebars
       ├─ cart.handlebars
       ├─ current-session.handlebars
       ├─ error.handlebars
       ├─ home.handlebars
-      ├─ layouts
-      │  └─ main.handlebars
       ├─ login.handlebars
       ├─ newstock.handlebars
       ├─ productDetails.handlebars
@@ -331,5 +296,4 @@ FUNCIONAL
       ├─ register.handlebars
       ├─ success.handlebars
       └─ ticket.handlebars
-
 ```

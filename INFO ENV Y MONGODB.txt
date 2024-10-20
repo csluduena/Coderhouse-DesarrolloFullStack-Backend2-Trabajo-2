@@ -7,22 +7,3 @@ GITHUB_CLIENT_ID=Ov23linDNvQLrpl16YvC
 GITHUB_CLIENT_SECRET=0f1eadc78ce017cf9c0b962282c18f04e6d11a8e
 GITHUB_CALLBACK_URL=http://localhost:8080/api/sessions/github/callback
 
-
-
-
-¡Bienvenido!
-
-
-
-
-
-
-
-
-
-
-
-- Usa "carts" (plural) para las rutas relacionadas con carritos.
-- Usa "products" (plural) para las rutas relacionadas con productos.
-
-

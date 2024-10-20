@@ -47,8 +47,8 @@ const initializePassport = () => {
                     first_name: profile._json.name,
                     last_name: '',
                     email: profile._json.email,
-                    password: '', 
-                    age: 18, 
+                    password: '',
+                    age: 18,
                 });
                 await user.save();
 

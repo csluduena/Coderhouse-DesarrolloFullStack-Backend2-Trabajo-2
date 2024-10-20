@@ -1,15 +1,13 @@
 import Cart from '../models/cart.model.js';
 
 export class CartRepository {
-    
+
     async findByUserId(userId) {
         let cart = await Cart.findOne({ user: userId }).populate('items.product');
         if (!cart) {
-            // If no cart exists, create a new one with an empty items array
             cart = new Cart({ user: userId, items: [] });
             await cart.save();
         }
-        // Ensure items is always an array
         cart.items = cart.items || [];
         return cart;
     }
@@ -51,7 +49,7 @@ export class CartRepository {
 
     async updateItem(cartId, itemId, quantity) {
         const cart = await Cart.findById(cartId);
-        const item = cart.items.id(itemId);
+        const item = cart.items.find(item => item.product._id.toString() === itemId || item.product.id.toString() === itemId);
         if (item) {
             item.quantity = quantity;
             await cart.save();

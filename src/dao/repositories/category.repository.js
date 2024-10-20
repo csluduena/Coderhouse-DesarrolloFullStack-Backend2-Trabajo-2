@@ -9,9 +9,9 @@ export class CategoryRepository {
         }
     }
 
-    async findAll() { // Método para obtener todas las categorías
+    async findAll() {
         try {
-            return await Category.find().populate('products'); // Devuelve todas las categorías
+            return await Category.find().populate('products');
         } catch (error) {
             throw new Error('Error al obtener las categorías');
         }

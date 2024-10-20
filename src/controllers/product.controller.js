@@ -15,24 +15,6 @@ export const getCategories = async (req, res) => {
     }
 };
 
-// export const getProducts = async (req, res) => {
-//     try {
-//         const { category } = req.query;
-//         let products;
-
-//         if (category) {
-//             products = await productRepository.findAll({ category });
-//         } else {
-//             products = await productRepository.findAll();
-//         }
-
-//         res.json(products);
-//     } catch (error) {
-//         console.error('Error fetching products:', error);
-//         res.status(ERROR_CODES.INTERNAL_SERVER_ERROR).json({ message: ERROR_MESSAGES.SERVER_ERROR });
-//     }
-// };
-
 export const getProducts = async (req, res) => {
     try {
         const { category, page = 1, limit = 20 } = req.query; // Extraer también page y limit

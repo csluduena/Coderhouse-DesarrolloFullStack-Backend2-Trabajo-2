@@ -52,6 +52,7 @@ export const removeFromCart = async (req, res) => {
 };
 
 export const updateCartItem = async (req, res) => {
+    //console.log("URL:", req.url);  // Agregar esta línea
     const { itemId } = req.params;
     const { quantity } = req.body;
     try {
@@ -62,7 +63,7 @@ export const updateCartItem = async (req, res) => {
         const updatedCart = await cartRepository.updateItem(cart._id, itemId, quantity);
         res.json(updatedCart);
     } catch (error) {
-        console.error('Error in updateCartItem:', error);
+        //console.error('Error in updateCartItem:', error);
         res.status(ERROR_CODES.INTERNAL_SERVER_ERROR).json({ message: ERROR_MESSAGES.SERVER_ERROR });
     }
 };
@@ -140,9 +141,9 @@ export const finalizePurchase = async (req, res) => {
     const productRepo = new ProductRepository();
     try {
         const cart = await cartRepository.findByUserId(req.user.userId);
-        console.log('Cart found:', JSON.stringify(cart, null, 2));
-        console.log('productRepository instance:', productRepository);
-        console.log('productRepository methods:', Object.getOwnPropertyNames(Object.getPrototypeOf(productRepository)));
+        //console.log('Cart found:', JSON.stringify(cart, null, 2));
+        //console.log('productRepository instance:', productRepository);
+        //console.log('productRepository methods:', Object.getOwnPropertyNames(Object.getPrototypeOf(productRepository)));
 
         if (!cart || !Array.isArray(cart.items) || cart.items.length === 0) {
             return res.status(ERROR_CODES.BAD_REQUEST).json({ message: 'El carrito está vacío o no es válido' });

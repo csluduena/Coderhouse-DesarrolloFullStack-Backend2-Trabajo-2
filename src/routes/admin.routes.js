@@ -5,7 +5,6 @@ import { getCategories, getAdminStockPage } from '../controllers/admin.controlle
 const router = Router();
 
 router.use(isAuthenticated, isAdmin);
-
 router.get('/stock', getAdminStockPage, isAdmin, );
 router.get('/categories', isAuthenticated, isAdmin , getCategories);
 

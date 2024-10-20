@@ -30,18 +30,6 @@ export const getCurrentUser = async (req, res) => {
     }
 };
 
-// export const getCurrentUser = async (req, res) => {
-//     try {
-//         if (!req.user) {
-//             return res.status(401).json({ message: 'Usuario no autenticado' });
-//         }
-//         res.json({ user: req.user });
-//     } catch (error) {
-//         console.error('Error en getCurrentUser:', error);
-//         res.status(500).json({ message: 'Error interno del servidor' });
-//     }
-// };
-
 export const register = async (req, res) => {
     try {
         const { first_name, last_name, email, age, password } = req.body;

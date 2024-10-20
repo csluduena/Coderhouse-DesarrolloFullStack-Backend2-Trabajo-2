@@ -51,9 +51,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 app.use((req, res, next) => {
-    console.log('Session:', req.session);
-    console.log('User:', req.user);
-    console.log('User in session:', res.locals.user);
+    // console.log('Session:', req.session);
+    // console.log('User:', req.user);
+    // console.log('User in session:', res.locals.user);
     next();
 });
 
@@ -98,14 +98,14 @@ app.use(notFoundHandler);
 app.use(errorHandler);
 
 const httpServer = app.listen(config.port, async () => {
-    console.log(`Server running on http://localhost:${config.port}`);
+    //console.log(`Server running on http://localhost:${config.port}`);
     await repairCarts();
 });
 
 const io = new Server(httpServer);
 
 io.on("connection", async (socket) => {
-    console.log("Nuevo cliente conectado");
+    // console.log("Nuevo cliente conectado");
 
     const initialProducts = await productManager.getProducts(1, 15);
     socket.emit('products', initialProducts);

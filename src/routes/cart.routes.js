@@ -10,13 +10,11 @@ router.get('/', getCart);
 router.post('/add', isAuthenticated, addToCart);
 router.delete('/remove/:itemId', removeFromCart);
 router.get('/count', isAuthenticated, getCartCount);
-router.put('/update/:itemId', updateCartItem);
+router.put('/update/:itemId', updateCartItem, isAuthenticated);
 router.delete('/clear', clearCart);
 router.post('/finalize', finalizePurchase);
-
 router.get('/carts/:cid', isAuthenticated, getCart);
 router.get('/:cid', getCart);
-
 router.get('/', getALlCarts);
 router.delete('/:cid', deleteCart); 
 router.post('/:cid/product/:pid', addProductToCart);

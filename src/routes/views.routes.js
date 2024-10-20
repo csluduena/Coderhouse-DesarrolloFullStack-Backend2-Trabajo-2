@@ -4,16 +4,13 @@ import { getCart, getProductDetails, getProducts, getUserProfile, renderLoginPag
 
 const router = Router();
 
-// Ruta para la página de inicio
 router.get('/', renderHomePage);
 
-// Ruta para la página de home
 router.get('/home', (req, res) => {
-    const user = req.user || null; // Asegúrate de que el usuario esté en la sesión
+    const user = req.user || null;
     res.render('home', { featuredProducts: yourFeaturedProducts, user });
 });
 
-// Otras rutas
 router.get('/current', isAuthenticated, getCurrentUser);
 router.get('/carts/:cid', isAuthenticated, getCart);
 router.get('/products/:id', isAuthenticated, getProductDetails);

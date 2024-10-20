@@ -1,38 +1,3 @@
-// export const getCart = async (req, res) => {
-//     const { cid } = req.params;
-
-//     try {
-//         const cart = await cartManager.getCartById(cid);
-
-//         if (!cart) {
-//             return res.status(ERROR_CODES.NOT_FOUND).render('error', { message: ERROR_MESSAGES.CART_NOT_FOUND });
-//         }
-
-//         const cartProducts = cart.products.map(item => {
-//             let thumbnailArray = [];
-//             item.product.thumbnails.forEach(img => {
-//                 thumbnailArray.push(img);
-//             });
-
-//             return {
-//                 title: item.product.title,
-//                 price: item.product.price,
-//                 quantity: item.quantity,
-//                 thumbnail: thumbnailArray
-//             };
-//         });
-
-//         res.render('cart', {
-//             cartId: cid,
-//             products: cartProducts,
-//             totalItems: cart.products.length,
-//         });
-
-//     } catch (error) {
-//         res.status(ERROR_CODES.INTERNAL_SERVER_ERROR).render('error', { message: ERROR_MESSAGES.SERVER_ERROR });
-//     }
-// };
-
 import User from '../dao/models/user.model.js';
 import Cart from '../dao/models/cart.model.js';
 import Ticket from '../dao/models/ticket.model.js';
@@ -52,16 +17,16 @@ export const renderHomePage = async (req, res) => {
         const allProducts = await Product.find();
         const featuredProducts = getRandomProducts(allProducts, 10);
 
-        console.log('User in session:', res.locals.user);
+        //console.log('User in session:', res.locals.user);
 
-        res.render('home', { 
+        res.render('home', {
             user: res.locals.user,
             categories: categories,
             featuredProducts: featuredProducts
         });
 
-        console.log('User object:', res.locals.user);
-        
+        //console.log('User object:', res.locals.user);
+
     } catch (error) {
         console.error('Error al obtener categorías y productos:', error);
         res.status(500).render('error', { message: 'Error al cargar la página de inicio' });
