@@ -84,7 +84,7 @@ Una vez iniciado el servidor, puedes acceder a la aplicación web a través de `
 
 Para pruebas con Postman:
 
-- Usa `http://localhost:8080/api/sessions/current-api` para obtener información del usuario actual
+- Usa `http://localhost:8080/api/sessions/current` para obtener información del usuario actual
 - Para endpoints que requieren autenticación, incluye el bearer token en el header de la solicitud.
 
 ## Contribución
