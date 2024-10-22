@@ -141,9 +141,6 @@ export const finalizePurchase = async (req, res) => {
     const productRepo = new ProductRepository();
     try {
         const cart = await cartRepository.findByUserId(req.user.userId);
-        //console.log('Cart found:', JSON.stringify(cart, null, 2));
-        //console.log('productRepository instance:', productRepository);
-        //console.log('productRepository methods:', Object.getOwnPropertyNames(Object.getPrototypeOf(productRepository)));
 
         if (!cart || !Array.isArray(cart.items) || cart.items.length === 0) {
             return res.status(ERROR_CODES.BAD_REQUEST).json({ message: 'El carrito está vacío o no es válido' });
