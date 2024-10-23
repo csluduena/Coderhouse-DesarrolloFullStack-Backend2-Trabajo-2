@@ -1,5 +1,7 @@
 # Guitar Store - Backend 2 (Entrega 4)
 
+Programación Backend II: Diseño y Arquitectura Backend - CODERHOUSE
+
 ## Descripción del Proyecto
 
 Este proyecto es la cuarta entrega del curso de Backend, avanzando con nuevas funcionalidades para una tienda online especializada en instrumentos musicales, principalmente guitarras. Se han implementado mejoras en la seguridad, autenticación, manejo de sesiones y carritos de compra para ofrecer una experiencia robusta y escalable.
