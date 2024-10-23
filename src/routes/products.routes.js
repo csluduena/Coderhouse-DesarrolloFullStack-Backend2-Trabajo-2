@@ -102,7 +102,7 @@ router.put("/:pid", isAuthenticated, isAdmin, updateProduct);
  * @swagger
  * /api/products/{pid}:
  *   delete:
- *     summary: Delete a product
+ *     summary: Delete a product from Stock
  *     tags: [Products]
  *     security:
  *       - bearerAuth: []
