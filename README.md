@@ -66,26 +66,40 @@ Características Principales
 Endpoints Clave
 ---------------
 
-### Sesiones y Autenticación
+### Admin
 
--   `POST /api/sessions/register`: Registra un nuevo usuario.
--   `POST /api/sessions/login`: Inicia sesión.
--   `POST /api/sessions/logout`: Cierra la sesión.
--   `GET /api/sessions/current`: Obtiene la información del usuario autenticado.
--   `GET /api/sessions/current-api`: Versión API para obtener información del usuario autenticado usando tokens Bearer.
+-   `GET /admin/stock/update`: Update stock.
+-   `GET /admin/categories`: Get all categories.
 
-### Carritos
+### Cart
 
--   `GET /api/carts/:cid`: Obtiene el carrito de un usuario específico.
--   `POST /api/carts/:cid/products/:pid`: Añade un producto al carrito.
--   `DELETE /api/carts/:cid/products/:pid`: Elimina un producto del carrito.
--   `DELETE /api/carts/:cid`: Elimina un carrito completo.
+-   `POST /api/carts/add`: Add item to cart.
+-   `DELETE /api/carts/remove/{itemId}`: Remove item from cart.
+-   `GET /api/carts/count`: Get cart item count.
+-   `PUT /api/carts/update/{itemId}`: Update cart item quantity.
+-   `DELETE /api/carts/clear`: Clear all items from the cart.
+-   `POST /api/carts/finalize`: Finalize purchase and create order.
+-   `GET /api/carts/{cId}`: Get user's cart.
 
-### Productos
+### Products
 
--   `GET /api/products`: Lista todos los productos con soporte de paginación.
--   `GET /api/products/:pid`: Detalles de un producto específico.
--   `PUT /api/products/:pid`: Actualiza la información de un producto (solo para administradores).
+-   `GET /api/products`: Get all products.
+-   `GET /api/products/{pid}`: Get a product by ID.
+-   `PUT /api/products/{pid}`: Update a product.
+-   `DELETE /api/products/{pid}`: Delete a product.
+
+### Users Session
+
+-   `POST /api/sessions/login`: Login user.
+-   `POST /api/sessions/logout`: Logout current user.
+
+### Users
+
+-   `POST /api/users/register`: Register a new user.
+-   `GET /api/users/profile`: Get user profile.
+-   `PUT /api/users/profile`: Update user profile.
+-   `DELETE /api/users`: Delete user account.
+
 
 Tecnologías Utilizadas
 ----------------------
