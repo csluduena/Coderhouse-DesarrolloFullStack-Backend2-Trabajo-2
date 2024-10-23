@@ -122,7 +122,7 @@ Instalación y Configuración
 
     Copiar código
 
-    `git clone https://github.com/csluduena/guitar-store-backend.git`
+    `git clone https://github.com/csluduena/Coderhouse-DesarrolloFullStack-Backend2-Trabajo-2.git`
 
 2.  **Instalar dependencias**:
 
