@@ -469,14 +469,6 @@ nav ul li a:hover {
     text-shadow: 0 0 10px var(--primary-color);
     animation: glow 2s ease-in-out infinite alternate;
 }
-
-
-
-.rock-message {
-    font-size: 1.5rem;
-    margin: 2rem 0;
-}
-
 .rock-invitation {
     font-size: 2.2rem;
     margin-bottom: 2rem;

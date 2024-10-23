@@ -1,10 +1,60 @@
-
 <div class="rock-session-container">
     <h1 class="rock-title, display-3">¡Bienvenido!</h1>
+    <p style="font-size: 13px; margin-bottom: 45px; font-style: italic;">Este proyecto corresponde a la cuarta entrega del curso "Programación Backend II: Diseño
+        y Arquitectura Backend" en CoderHouse. Consiste en una tienda en línea especializada en guitarras y otros
+        instrumentos musicales, incorporando funcionalidades avanzadas como autenticación segura, gestión de sesiones,
+        manejo de carritos de compra y un panel de administración para gestionar productos. La arquitectura sigue el
+        patrón MVC y utiliza tecnologías como Node.js, Express, y MongoDB. Además, se implementa un sistema robusto para
+        la gestión de productos y procesamiento de pedidos, garantizando una experiencia de usuario escalable y
+        eficiente. <a
+            href="https://github.com/csluduena/Coderhouse-DesarrolloFullStack-Backend2-Trabajo-2/blob/main/README.md"
+            target="_blank" class="ho1" style="color: red;text-shadow: -1px 0px 0px #ff971f;text-decoration: none;">(Más información aquí)</a></p>
+
     <div class="rock-message">
-        <p>A continuación un poco de detalles técnicos y prácticos:</p>
-        <p>Eso significa que lo hemos logrado!</p>
+        A continuación, puedes consultar los endpoints disponibles a través de Swagger. <br>
+        <a href="http://localhost:8080/api-docs" target="_blank"
+            class="ho1" style="color: red;text-shadow: -1px 0px 0px #ff971f;margin-left: 20px;text-decoration: none;">(Click aquí
+            para una vista más agradable)</a>
     </div>
-    <p class="rock-invitation">Ahora, te invito a que vayas al home y sigas explorando la página a tu gusto!</p>
+
+
+    {{!-- <p>A continuación un poco de detalles técnicos y prácticos:</p>
+    <p>Eso significa que lo hemos logrado!</p> --}}
+    <iframe class="api-docs-iframe" src="http://localhost:8080/api-docs/#/"></iframe>
+
+    <p class="rock-invitation" style="margin-top:30px; font-size:15px;">Ahora, te invito a que vayas al home y sigas explorando la página a tu gusto!</p>
+
+
     <a href="/" class="btn btn-primary btn-large">Ir a Inicio</a>
 </div>
+
+<style>
+    .api-docs-iframe {
+        width: 90%;
+        /* min-width: 646px; */
+        border: none;
+        min-height: 700px;
+        border-radius: 2rem;
+        /* display: flex; */
+    }
+
+    .rock-message {
+        font-size: 16px;
+        margin-top: -15px;
+        margin-bottom: 5px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .display-3 {
+        font-size: 6rem !important;
+        margin-top: -34px !important;
+    }
+
+    .ho1:hover {
+        background-color: rgb(255, 0, 0);
+        border-radius: 5px;
+        color: #ffffff !important;
+        text-shadow: none !important;
+    }
+</style>

@@ -7,6 +7,7 @@ import initializePassport from "./config/passport.config.js";
 import { engine } from "express-handlebars";
 import { Server } from "socket.io";
 import config from './config/config.js';
+import { swaggerDocs } from './config/swagger.js';
 import productsRouter from "./routes/products.routes.js";
 import cartRouter from "./routes/cart.routes.js";
 import userRouter from "./routes/user.routes.js";
@@ -24,6 +25,7 @@ import bodyParser from 'body-parser';
 import { repairCarts } from './utils/cartRepair.js';
 
 const app = express();
+const PORT = process.env.PORT || 8080;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -39,6 +41,8 @@ app.use(session({
     resave: false,
     saveUninitialized: false
 }));
+
+swaggerDocs(app, PORT);
 
 initializePassport();
 app.use(passport.initialize());
@@ -98,7 +102,8 @@ app.use(notFoundHandler);
 app.use(errorHandler);
 
 const httpServer = app.listen(config.port, async () => {
-    //console.log(`Server running on http://localhost:${config.port}`);
+    console.log(`Servidor escuchando en el puerto ${config.port}`);
+    swaggerDocs(app, config.port);
     await repairCarts();
 });
 
@@ -112,7 +117,7 @@ io.on("connection", async (socket) => {
 
     socket.on('requestPage', async ({ page, limit, sort }) => {
         const products = await productManager.getProducts(page, limit, sort);
-        
+
         socket.emit('products', products);
     });
 });

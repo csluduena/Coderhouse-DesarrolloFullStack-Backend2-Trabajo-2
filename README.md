@@ -4,211 +4,225 @@
 
 Este proyecto es la cuarta entrega del curso de Backend, avanzando con nuevas funcionalidades para una tienda online especializada en instrumentos musicales, principalmente guitarras. Se han implementado mejoras en la seguridad, autenticación, manejo de sesiones y carritos de compra para ofrecer una experiencia robusta y escalable.
 
-## Características Principales
+Aplicación de Comercio Electrónico Guitar Store
+===============================================
 
-1. **Modelo de Usuario Mejorado**:
-   - Campos: `first_name`, `last_name`, `email`, `age`, `password`, `cart`, `role`.
-   - Generación automática de carrito al registrarse.
+Descripción del Proyecto
+------------------------
 
-2. **Seguridad Mejorada**:
-   - Encriptación de contraseñas utilizando bcrypt.
+Este proyecto es la cuarta entrega del curso de `"Programación Backend II: Diseño y Arquitectura Backend"` para la academia `CoderHouse`. El mismo consta de una tienda en línea especializada en la venta de guitarras y otros instrumentos musicales. La aplicación ofrece diversas funcionalidades avanzadas, como autenticación, gestión de productos, carrito de compras, procesamiento de pedidos, y un panel de administración para gestionar el stock de productos.
 
-3. **Autenticación Avanzada**:
-   - Implementación de estrategias con Passport.
-   - Sistema de login con JWT (JSON Web Tokens).
+Estructura del Proyecto
+-----------------------
 
-4. **Manejo de Sesiones**:
-   - Estrategia "current" para extraer y validar tokens de cookies.
-   - Rutas separadas para validación de usuarios en web y API.
+La aplicación sigue una estructura MVC (Modelo-Vista-Controlador), junto con capas adicionales para la gestión de datos y lógica de negocio. A continuación, se describen los directorios principales:
 
-5. **Gestión de Carritos**:
-   - Modelo de carrito con campos `id` y `productos`.
-   - Funcionalidades para agregar, eliminar y obtener productos del carrito de un usuario.
+-   **`src/`**: Directorio raíz del código fuente.
+    -   **`controllers/`**: Archivos de controladores para manejar la lógica de negocio.
+    -   **`dao/`**: Capa de acceso a datos (DAO) para la interacción con la base de datos.
+        -   **`db/`**: Implementaciones específicas de la base de datos.
+        -   **`models/`**: Definiciones de esquemas de Mongoose.
+        -   **`repositories/`**: Implementaciones del patrón de repositorio para abstracción de base de datos.
+    -   **`dto/`**: Definiciones de Objetos de Transferencia de Datos (DTO).
+    -   **`middlewares/`**: Funciones middleware personalizadas, como autenticación y autorización.
+    -   **`public/`**: Recursos estáticos (CSS, JavaScript del cliente, imágenes).
+    -   **`routes/`**: Definiciones de rutas de Express para las APIs y vistas.
+    -   **`services/`**: Lógica de negocio centralizada.
+    -   **`utils/`**: Funciones de utilidad y helpers.
+    -   **`views/`**: Plantillas Handlebars para renderizar las vistas del cliente.
 
-## *** Endpoints ***
+Características Principales
+---------------------------
+
+1.  **Modelo de Usuario Mejorado**:
+
+    -   Campos como `first_name`, `last_name`, `email`, `age`, `password`, `cart`, `role`.
+    -   Generación automática de un carrito al registrarse.
+    -   Contraseñas encriptadas con **bcrypt** para mayor seguridad.
+2.  **Autenticación**:
+
+    -   Autenticación basada en JWT (JSON Web Tokens) y gestión de sesiones con Passport.js.
+    -   Separación de rutas para usuarios autenticados en la web y para APIs.
+    -   Uso de tokens de autenticación extraídos de cookies.
+3.  **Gestión de Productos**:
+
+    -   CRUD completo para productos con soporte para paginación y filtrado.
+    -   Actualización de stock mediante el panel de administración.
+4.  **Carrito de Compras**:
+
+    -   Funcionalidad para agregar, eliminar y modificar productos en el carrito.
+    -   Manejo de la cantidad de productos y cálculo total en tiempo real.
+5.  **Procesamiento de Pedidos**:
+
+    -   Generación de tickets de compra con detalles de los productos adquiridos.
+    -   Funcionalidad de "Finalizar Compra" que actualiza el stock de los productos comprados.
+6.  **Panel de Administración**:
+
+    -   Gestión de productos y stock para administradores.
+    -   Implementación de un sistema de autorización basado en roles (admin y usuario).
+
+Endpoints Clave
+---------------
 
 ### Sesiones y Autenticación
 
-- `POST /api/sessions/register`: Registro de nuevos usuarios.
-- `POST /api/sessions/login`: Inicio de sesión.
-- `POST /api/sessions/logout`: Cierre de sesión.
-- `GET /api/sessions/current`: Obtener información del usuario actual (versión web).
-- `GET /api/sessions/current-api`: Obtener información del usuario actual (para Postman, requiere bearer token).
+-   `POST /api/sessions/register`: Registra un nuevo usuario.
+-   `POST /api/sessions/login`: Inicia sesión.
+-   `POST /api/sessions/logout`: Cierra la sesión.
+-   `GET /api/sessions/current`: Obtiene la información del usuario autenticado.
+-   `GET /api/sessions/current-api`: Versión API para obtener información del usuario autenticado usando tokens Bearer.
 
 ### Carritos
 
-- `GET /api/carts/:cid`: Obtener un carrito específico (requiere bearer token).
-- `GET /api/carts`: Listar todos los carritos (requiere bearer token).
-- `DELETE /api/carts/:cid`: Eliminar un carrito (requiere bearer token).
-- `POST /api/carts/:cid/products/:pid`: Agregar un producto a un carrito (requiere bearer token).
-- `DELETE /api/carts/:cid/products/:pid`: Eliminar un producto de un carrito (requiere bearer token).
+-   `GET /api/carts/:cid`: Obtiene el carrito de un usuario específico.
+-   `POST /api/carts/:cid/products/:pid`: Añade un producto al carrito.
+-   `DELETE /api/carts/:cid/products/:pid`: Elimina un producto del carrito.
+-   `DELETE /api/carts/:cid`: Elimina un carrito completo.
 
 ### Productos
 
-- `GET /api/products`: Listar todos los productos.
-- `GET /api/products/:pid`: Obtener un producto específico.
-- `PUT /api/products/:pid`: Actualizar un producto (requiere bearer token).
+-   `GET /api/products`: Lista todos los productos con soporte de paginación.
+-   `GET /api/products/:pid`: Detalles de un producto específico.
+-   `PUT /api/products/:pid`: Actualiza la información de un producto (solo para administradores).
 
-## Tecnologías Utilizadas
+Tecnologías Utilizadas
+----------------------
 
-- Node.js
-- Express.js
-- MongoDB con Mongoose
-- Passport.js
-- JWT para autenticación
-- bcrypt para encriptación
-- Handlebars para vistas
-- Socket.io para comunicación en tiempo real
-- dotenv para manejo de variables de entorno
-- cookie-parser para manejo de cookies
-- express-session para manejo de sesiones
+-   **Backend**: Node.js con Express.js.
+-   **Base de Datos**: MongoDB utilizando Mongoose como ODM.
+-   **Autenticación**: Passport.js con JWT para la gestión de sesiones.
+-   **Vistas**: Handlebars para el renderizado dinámico de HTML.
+-   **Seguridad**: bcrypt para encriptación de contraseñas.
+-   **Comunicación en Tiempo Real**: Socket.io para interacción cliente-servidor en tiempo real.
+-   **Manejo de Sesiones**: express-session y cookie-parser.
+-   **Variables de Entorno**: dotenv para configuración de entornos.
 
-## Instalación y Configuración
+Instalación y Configuración
+---------------------------
 
-1. Clonar el repositorio:
-    git clone [https://github.com/csluduena/guitar-store-backend.git](https://github.com/csluduena/guitar-store-backend.git)
-2. Instalar dependencias:
-    cd guitar-store-backend npm install
-3. Configurar variables de entorno:
-    Crear un archivo `.env` en la raíz del proyecto con las siguientes variables:
-        MONGODB_URI=tu_uri_de_mongodb
-        JWT_SECRET=tu_secreto_jwt
-        SESSION_SECRET=tu_secreto_de_sesion
-        PORT=8080
-4. Iniciar el servidor:
-    npm run dev
+1.  **Clonar el repositorio**:
 
-## Uso
+    bash
 
-Una vez iniciado el servidor, puedes acceder a la aplicación web a través de `http://localhost:8080`
+    Copiar código
 
-Para pruebas con Postman:
+    `git clone https://github.com/csluduena/guitar-store-backend.git`
 
-- Usa `http://localhost:8080/api/sessions/current` para obtener información del usuario actual
-- Para endpoints que requieren autenticación, incluye el bearer token en el header de la solicitud.
+2.  **Instalar dependencias**:
 
-## Contribución
+    bash
 
-Si deseas contribuir al proyecto, por favor:
+    Copiar código
 
-1. Haz un fork del repositorio.
-2. Crea una nueva rama para tu feature (`git checkout -b feature/AmazingFeature`).
-3. Haz commit de tus cambios (`git commit -m 'Add some AmazingFeature'`).
-4. Push a la rama (`git push origin feature/AmazingFeature`).
-5. Abre un Pull Request.
+    `cd guitar-store-backend
+    npm install`
 
-## Contacto
+3.  **Configurar variables de entorno**: Crear un archivo `.env` en la raíz del proyecto con las siguientes variables:
 
-Sebastian Ludueña - [@csluduena](https://linkedin.com/in/csluduena)
+    bash
 
-Sitio Web: [www.csluduena.com.ar](https://www.csluduena.com.ar)
+    Copiar código
 
-GitHub: [github.com/csluduena](https://github.com/csluduena)
+    `MONGODB_URI=tu_uri_de_mongodb
+    JWT_SECRET=tu_secreto_jwt
+    SESSION_SECRET=tu_secreto_de_sesion
+    PORT=8080`
 
-## Licencia
+4.  **Iniciar el servidor**:
 
-Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más detalles.
+    bash
 
-## Key Implementations
+    Copiar código
 
-1. **User Authentication**
-   - JWT-based authentication
-   - GitHub OAuth integration
+    `npm run dev`
 
-2. **Product Management**
-   - CRUD operations for products
-   - Pagination and sorting
+Uso
+---
 
-3. **Shopping Cart**
-   - Add/remove items
-   - Update quantities
+Una vez iniciado el servidor, la aplicación web estará disponible en `http://localhost:8080`. También se pueden realizar pruebas con Postman para verificar los endpoints, especialmente los que requieren autenticación mediante tokens JWT.
 
-4. **Order Processing**
-   - Create orders from cart items
-   - Generate tickets for successful purchases
+Scripts Útiles
+--------------
 
-5. **Error Handling**
-   - Centralized error handling middleware
+### Asignar Rol de Administrador
 
-6. **Data Transfer Objects (DTOs)**
-   - Implemented for User and Product models
+Un script para asignar el rol de administrador a un usuario ya registrado en la base de datos.
 
-7. **Repositories**
-   - Added for Product, User, and Ticket models
+bash
 
-## Notable Changes
+Copiar código
 
-1. Implemented the Ticket model and related functionality
+`node src/utils/setAdmin.js <userId>`
 
-2. Added a finalize purchase route in cart controller
+### Reparar Carritos
 
-3. Updated views to support new features (e.g., success page after purchase)
+Un script para corregir carritos en la base de datos que puedan tener productos no definidos.
 
-4. Improved error handling and added more specific error messages
+bash
 
-5. Implemented role-based authorization (admin and user roles)
+Copiar código
 
-6. Added setAdmin.js script to easily assign the admin role to a user.
+`node src/utils/cartRepair.js`
 
-7. This script takes a user ID as an argument and updates the user's role to "admin" in the database.
-To use it, run node `src/utils/setAdmin.js` `<userId>` in your terminal, replacing `<userId>` with the actual ID of the user you want to make an admin.
-Added updateCategory.js script to add product IDs to a category.
+Consideraciones
+---------------
 
-8. This script takes an array of product IDs and a category name as input.
-It updates the specified category in the database to include the provided product IDs.
-To use it, modify the productIds and categoryName variables in the script and then run node `src/utils/updateCategory.js` in your terminal.
-Added cartRepair.js script to fix carts that might have items as undefined.
+1.  **Autenticación y Roles**: Solo los usuarios autenticados con el rol de "admin" pueden acceder al panel de administración.
+2.  **Manejo de Errores**: Se implementa un manejo centralizado de errores con mensajes específicos y códigos de estado HTTP claros.
+3.  **Seguridad**: Las contraseñas están encriptadas y los tokens de sesión tienen un tiempo de expiración configurable.
 
-9. This script finds all carts in the database and checks if the items property is an array.
-If items is not an array, it sets it to an empty array and saves the cart.
-This script is useful to fix any inconsistencies in the cart data.
-Sistema de Agregado de Stock para Administrador
-Este sistema permite a los administradores actualizar el stock de los productos a través de la página de administración de stock (/admin/stock).
+Implementaciones Técnicas Destacadas
+------------------------------------
 
-## Funcionalidad
+### DTOs (Data Transfer Objects)
 
-1. Los administradores pueden seleccionar una categoría de producto para ver los productos asociados.
-2. Al hacer clic en un producto, se muestra un formulario con el stock actual y un campo para ingresar el nuevo stock.
-3. Al hacer clic en "Actualizar Stock", se envía una solicitud PUT a la ruta `/api/products/:pid` con el nuevo stock.
-4. El servidor actualiza el stock del producto en la base de datos y devuelve el producto actualizado.
-6. La página de administración de stock se actualiza para mostrar el nuevo stock.
+Se utilizan DTOs para asegurar que los datos enviados entre las capas de la aplicación estén correctamente formateados.
 
-## Implementación
+javascript
 
-1. La página de administración de stock se encuentra en la ruta `/admin/stock` y utiliza la vista admin/stock.handlebars.
-2. La lógica del lado del cliente se encuentra en el archivo `public/js/admin-stock.js`.
-3. El controlador que maneja la solicitud PUT se encuentra en `src/controllers/product.controller.js`.
-4. El repositorio que interactúa con la base de datos se encuentra en `src/dao/repositories/product.repository.js`.
+Copiar código
 
-## Consideraciones
+`// src/dto/product.dto.js
+export class ProductDTO {
+    constructor(product) {
+        this.id = product._id;
+        this.title = product.title;
+        this.description = product.description;
+        this.price = product.price;
+        this.img = product.img;
+        this.stock = product.stock;
+    }
+}`
 
-1. Solo los usuarios con el rol "admin" pueden acceder a la página de administración de stock.
-2. El sistema de autenticación y autorización se encarga de verificar el rol del usuario antes de permitir el acceso.
-3. El sistema de manejo de errores se encarga de capturar y mostrar cualquier error que ocurra durante el proceso de actualización del stock.
+### Repositorios y Patrones de Diseño
 
-## Example of New Implementation: Ticket Model
+El uso de patrones como DAO y repositorio permite una abstracción clara para las operaciones de base de datos:
 
-This model represents a purchase ticket, storing information about each successful transaction.
+javascript
 
-## Conclusion
+Copiar código
 
-The Guitar Store project has been significantly enhanced with new features and improved architecture. The implementation of DTOs, repositories, and the ticket system has made the application more robust and scalable. Future improvements could include more advanced product filtering, user reviews, and integration with payment gateways.
+`// src/dao/repositories/product.repository.js
+export class ProductRepository {
+    async findById(id) {
+        return await Product.findById(id);
+    }
 
+    // Otros métodos de CRUD
+}`
 
-## Project Structure
+### Procesamiento de Pedidos y Tickets
 
-The project follows a typical MVC (Model-View-Controller) structure:
+Un modelo específico para tickets de compra se ha implementado para registrar las transacciones exitosas.
 
-- `src/`
-  - `controllers/`: Contains logic for handling requests
-  - `dao/`: Data Access Objects for database operations
-  - `models/`: Mongoose schemas for database models
-  - `routes/`: Express routes for different API endpoints
-  - `views/`: Handlebars templates for rendering pages
-  - `middlewares/`: Custom middleware functions
-  - `utils/`: Utility functions and constants
-  - `config/`: Configuration files
-  - `public/`: Static assets (CSS, client-side JS)
+### Gestión de Stock para Administradores
+
+Los administradores pueden actualizar el stock de productos mediante una interfaz fácil de usar en `/admin/stock`, donde seleccionan productos y ajustan cantidades.
+
+Conclusión
+----------
+
+El proyecto Guitar Store ha evolucionado significativamente con nuevas características, una estructura modular y una arquitectura escalable. Las mejoras incluyen autenticación segura, gestión avanzada de carritos, y un sistema robusto para la administración de productos. Las próximas mejoras podrían incluir filtros de productos más avanzados, reseñas de usuarios y la integración con pasarelas de pago.
 
 ```
 GuitarStore4-2
