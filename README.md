@@ -130,7 +130,7 @@ Instalación y Configuración
 
     Copiar código
 
-    `cd guitar-store-backend
+    `cd Coderhouse-DesarrolloFullStack-Backend2-Trabajo-2
     npm install`
 
 3.  **Configurar variables de entorno**: Crear un archivo `.env` en la raíz del proyecto con las siguientes variables:
