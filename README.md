@@ -117,14 +117,14 @@ Instalación y Configuración
 ---------------------------
 
 1.  **Clonar el repositorio**:
-    ```javascript
+    ```markdown
     bash > Copiar código:
     ```
 ```javascript
     git clone https://github.com/csluduena/Coderhouse-DesarrolloFullStack-Backend2-Trabajo-2.git
 ```
 2.  **Instalar dependencias**:
-    ```javascript
+    ```typescript
     bash > Copiar código:
     ```
 ```javascript
@@ -134,7 +134,7 @@ Instalación y Configuración
     npm install
 ```
 3.  **Configurar variables de entorno**: Crear un archivo `.env` en la raíz del proyecto con las siguientes variables:
-    ```javascript
+    ```phyton
     bash > Copiar código:
     ```
 ```javascript
