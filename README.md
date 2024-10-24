@@ -118,9 +118,7 @@ Instalación y Configuración
 
 1.  **Clonar el repositorio**:
     
-    a- bash
-
-    b- Copiar código:
+    bash > Copiar código:
 ```javascript
         git clone https://github.com/csluduena/Coderhouse-DesarrolloFullStack-Backend2-Trabajo-2.git
 ```
