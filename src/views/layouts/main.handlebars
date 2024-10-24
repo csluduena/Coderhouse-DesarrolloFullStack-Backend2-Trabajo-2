@@ -61,68 +61,70 @@
 
     <script src="/js/rockAlerts.js"></script>
     <script>
-    async function checkAuth() {
-        try {
-            const response = await fetch('/api/sessions/check-auth', {
-                method: 'GET',
-                credentials: 'include'
-            });
-            if (response.ok) {
-                const data = await response.json();
-                if (data.isAuthenticated) {
-                    updateNavigation(true, data.user.role === 'admin');
-                    if (data.user.cart) {
-                        updateCartCount(data.user.cart);
-                    }
-                } else {
-                    updateNavigation(false);
-                }
-            } else {
-                updateNavigation(false);
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            updateNavigation(false);
-        }
-    }
+    let isAuthenticated = false;
+let isAdmin = false;
 
-    function updateNavigation(isAuthenticated, isAdmin = false) {
-        document.getElementById('cartLink').style.display = isAuthenticated ? 'inline' : 'none';
-        document.getElementById('productsLink').style.display = isAuthenticated ? 'inline' : 'none';
-        document.getElementById('profileLink').style.display = isAuthenticated ? 'inline' : 'none';
-        document.getElementById('logoutLink').style.display = isAuthenticated ? 'inline' : 'none';
-        document.getElementById('loginLink').style.display = isAuthenticated ? 'none' : 'inline';
-        document.getElementById('registerLink').style.display = isAuthenticated ? 'none' : 'inline';
-        document.getElementById('adminLink').style.display = isAdmin ? 'inline' : 'none';
-    }
-
-
-
-    async function logout() {
-        try {
-            const response = await fetch('/api/sessions/logout', { method: 'POST' });
-            if (response.ok) {
-                updateNavigation(false);
-                window.location.href = '/login';
-            }
-        } catch (error) {
-            console.error('Error:', error);
-        }
-    }
-
-    async function updateCartCount() {
-        try {
-            const response = await fetch('/api/carts/count');
+async function checkAuth() {
+    try {
+        const response = await fetch('/api/sessions/check-auth', {
+            method: 'GET',
+            credentials: 'include'
+        });
+        if (response.ok) {
             const data = await response.json();
-            const cartCount = data.count;
-            document.getElementById('cartCount').textContent = cartCount;
-        } catch (error) {
-            console.error('Error updating cart count:', error);
+            isAuthenticated = data.isAuthenticated;
+            isAdmin = data.user && data.user.role === 'admin';
+            if (isAuthenticated && data.user.cart) {
+                updateCartCount(data.user.cart);
+            }
+        } else {
+            isAuthenticated = false;
+            isAdmin = false;
         }
+    } catch (error) {
+        console.error('Error checking auth:', error);
+        isAuthenticated = false;
+        isAdmin = false;
     }
+    updateNavigation();
+}
 
-    document.addEventListener('DOMContentLoaded', async () => {
-        await checkAuth();
-        await updateCartCount();
-    });
+function updateNavigation() {
+    document.getElementById('cartLink').style.display = isAuthenticated ? 'inline' : 'none';
+    document.getElementById('productsLink').style.display = isAuthenticated ? 'inline' : 'none';
+    document.getElementById('profileLink').style.display = isAuthenticated ? 'inline' : 'none';
+    document.getElementById('logoutLink').style.display = isAuthenticated ? 'inline' : 'none';
+    document.getElementById('loginLink').style.display = isAuthenticated ? 'none' : 'inline';
+    document.getElementById('registerLink').style.display = isAuthenticated ? 'none' : 'inline';
+    document.getElementById('adminLink').style.display = isAdmin ? 'inline' : 'none';
+}
+
+async function updateCartCount(cart) {
+    if (!isAuthenticated) return;
+    try {
+        const response = await fetch('/api/carts/count');
+        if (response.ok) {
+            const data = await response.json();
+            document.getElementById('cartCount').textContent = data.count;
+        }
+    } catch (error) {
+        console.error('Error updating cart count:', error);
+    }
+}
+
+async function logout() {
+    try {
+        const response = await fetch('/api/sessions/logout', { method: 'POST' });
+        if (response.ok) {
+            isAuthenticated = false;
+            isAdmin = false;
+            updateNavigation();
+            window.location.href = '/login';
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', checkAuth);
 </script>

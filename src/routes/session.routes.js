@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { isAuthenticated } from "../middlewares/auth.middleware.js";
-import { register, login, logout, getCurrentUser, githubCallback } from '../controllers/user.controller.js';
+import { register, login, logout, getCurrentUser, githubCallback, googleCallback } from '../controllers/user.controller.js';
 import passport from 'passport';
 
 const router = Router();
@@ -10,7 +10,7 @@ const router = Router();
  * /api/sessions/login:
  *   post:
  *     summary: Login user
- *     tags: [Users Session]
+ *     tags: [Session]
  *     requestBody:
  *       required: true
  *       content:
@@ -27,20 +27,20 @@ const router = Router();
  *                 type: string
  *     responses:
  *       200:
- *         description: Login successful
+ *         description: Login su
  *       401:
- *         description: Invalid credentials
+ *         description: Invalid 
  *       500:
- *         description: Internal server error
+ *         description: Internal
  */
 router.post('/login', login);
 
 /**
  * @swagger
- * /api/session/logout:
+ * /api/sessions/logout:
  *   post:
  *     summary: Logout current user
- *     tags: [Users Session]
+ *     tags: [Session]
  *     security:
  *       - bearerAuth: []
  *     responses:
@@ -57,11 +57,20 @@ router.get("/current", isAuthenticated, getCurrentUser);
 
 router.get("/user", isAuthenticated, getCurrentUser);
 
-router.get("/check-auth", isAuthenticated, (req, res) => {
-    res.json({ isAuthenticated: true, user: req.user });
+router.get("/check-auth", (req, res) => {
+    if (req.isAuthenticated()) {
+        res.json({ isAuthenticated: true, user: req.user });
+    } else {
+        res.json({ isAuthenticated: false });
+    }
 });
 
+// Rutas de autenticación con GitHub
 router.get('/github', passport.authenticate('github', { scope: ['user:email'] }));
 router.get('/github/callback', passport.authenticate('github', { failureRedirect: '/login' }), githubCallback);
+
+// Rutas de autenticación con Google
+router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+router.get('/google/callback', passport.authenticate('google', { failureRedirect: '/login' }), googleCallback);
 
 export default router;

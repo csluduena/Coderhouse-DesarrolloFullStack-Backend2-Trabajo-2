@@ -94,13 +94,10 @@ export const getALlCarts = async (req, res) => {
 
 export const getCartCount = async (req, res) => {
     try {
-        // Obtener el carrito del usuario autenticado
         const cart = await cartRepository.findByUserId(req.user.userId);
         
-        // Calcular la cantidad total de artículos en el carrito
         const count = cart ? cart.items.reduce((total, item) => total + item.quantity, 0) : 0;
 
-        // Responder con la cantidad total de artículos
         res.status(200).json({ count });
     } catch (error) {
         console.error('Error in getCartCount:', error);
@@ -190,7 +187,6 @@ export const finalizePurchase = async (req, res) => {
                 purchaser: req.user.email
             });
 
-            // Update the cart to remove purchased items
             cart.items = failedItems;
             await cartRepository.update(cart._id, cart);
 
@@ -213,11 +209,10 @@ export const finalizePurchase = async (req, res) => {
 };
 
 export const finalizePurchaseAPI = async (req, res) => {
-    const productRepo = new ProductRepository(); // Asegúrate de que tienes acceso a ProductRepository
+    const productRepo = new ProductRepository();
     try {
-        const cart = await cartRepository.findByUserId(req.user.userId); // Busca el carrito por ID de usuario
+        const cart = await cartRepository.findByUserId(req.user.userId);
 
-        // Verifica si el carrito es válido
         if (!cart || !Array.isArray(cart.items) || cart.items.length === 0) {
             return res.status(ERROR_CODES.BAD_REQUEST).json({ message: 'El carrito está vacío o no es válido' });
         }
@@ -226,18 +221,17 @@ export const finalizePurchaseAPI = async (req, res) => {
         const purchasedItems = [];
         const failedItems = [];
 
-        // Itera sobre los ítems del carrito
         for (const item of cart.items) {
             if (!item.product || !item.quantity) {
                 console.error('Invalid item in cart:', item);
-                continue; // Continúa si el ítem no es válido
+                continue;
             }
 
             try {
-                const product = await productRepo.findById(item.product._id); // Busca el producto
+                const product = await productRepo.findById(item.product._id);
                 if (!product) {
                     console.error('Product not found:', item.product._id);
-                    failedItems.push(item); // Si no se encuentra, lo agrega a failedItems
+                    failedItems.push(item);
                     continue;
                 }
 
@@ -245,28 +239,28 @@ export const finalizePurchaseAPI = async (req, res) => {
                 if (product.stock >= item.quantity) {
                     product.stock -= item.quantity; // Reduce el stock
                     await productRepository.update(product._id, product); // Actualiza el producto
-                    purchasedItems.push(item); // Agrega el ítem comprado
-                    totalAmount += product.price * item.quantity; // Suma el total
+                    purchasedItems.push(item);
+                    totalAmount += product.price * item.quantity;
                 } else {
-                    failedItems.push(item); // Si no hay stock, agrega a failedItems
+                    failedItems.push(item);
                 }
             } catch (error) {
                 console.error('Error processing product:', error);
-                failedItems.push(item); // Agrega a failedItems si ocurre un error
+                failedItems.push(item);
             }
         }
 
         // Si hay ítems comprados, crea un ticket
         if (purchasedItems.length > 0) {
             const ticket = await ticketRepository.create({
-                code: generateUniqueCode(), // Genera un código único para el ticket
-                amount: totalAmount, // Total de la compra
-                purchaser: req.user.email // Usuario que realiza la compra
+                code: generateUniqueCode(),
+                amount: totalAmount,
+                purchaser: req.user.email
             });
 
             // Actualiza el carrito para eliminar los ítems comprados
             cart.items = failedItems; // Mantiene solo los ítems no comprados
-            await cartRepository.update(cart._id, cart); // Actualiza el carrito
+            await cartRepository.update(cart._id, cart);
 
             // Responde con éxito
             res.status(200).json({
@@ -276,7 +270,6 @@ export const finalizePurchaseAPI = async (req, res) => {
                 failedItems: failedItems
             });
         } else {
-            // Si no hay ítems comprados, devuelve un error
             res.status(ERROR_CODES.BAD_REQUEST).json({
                 message: ERROR_MESSAGES.INSUFFICIENT_STOCK,
                 failedItems: failedItems
@@ -284,7 +277,6 @@ export const finalizePurchaseAPI = async (req, res) => {
         }
     } catch (error) {
         console.error('Error in finalizePurchaseAPI:', error);
-        // Maneja el error
         res.status(ERROR_CODES.INTERNAL_SERVER_ERROR).json({ message: ERROR_MESSAGES.SERVER_ERROR });
     }
 };

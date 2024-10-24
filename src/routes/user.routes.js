@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import { register, getProfile, updateProfile, deleteUser } from '../controllers/user.controller.js';
-import { isAuthenticated } from '../middlewares/auth.middleware.js';
+import { register, getProfile, updateProfile, deleteUser, changeUserRole } from '../controllers/user.controller.js';
+import { isAuthenticated, isAdmin } from '../middlewares/auth.middleware.js';
 
 const router = Router();
 
@@ -107,6 +107,45 @@ router.put('/profile', isAuthenticated, updateProfile);
  */
 router.delete('/', isAuthenticated, deleteUser);
 
+/**
+ * @swagger
+ * /api/users/{userId}/role:
+ *   put:
+ *     summary: Update user role
+ *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - name: userId
+ *         in: path
+ *         required: true
+ *         description: ID of the user whose role is to be updated
+ *         schema:
+ *           type: string
+ *           example: 671963ae605cfefb3818d2ed
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               role:
+ *                 type: string
+ *                 example: admin
+ *     responses:
+ *       200:
+ *         description: Role updated successfully
+ *       400:
+ *         description: Invalid input
+ *       401:
+ *         description: Unauthorized access
+ *       404:
+ *         description: User not found
+ *       500:
+ *         description: Internal server error
+ */
+router.put('/:uid/role', isAuthenticated, isAdmin, changeUserRole);
 
 
 export default router;

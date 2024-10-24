@@ -126,44 +126,6 @@ router.put("/:pid", isAuthenticated, isAdmin, updateProduct);
  */
 router.delete("/:pid", isAuthenticated, isAdmin, deleteProduct);
 
-// /**
-//  * @swagger
-//  * /api/products:
-//  *   post:
-//  *     summary: Create a new product
-//  *     tags: [Products]
-//  *     security:
-//  *       - bearerAuth: []
-//  *     requestBody:
-//  *       required: true
-//  *       content:
-//  *         application/json:
-//  *           schema:
-//  *             type: object
-//  *             required:
-//  *               - name
-//  *               - price
-//  *             properties:
-//  *               name:
-//  *                 type: string
-//  *               price:
-//  *                 type: number
-//  *               description:
-//  *                 type: string
-//  *               category:
-//  *                 type: string
-//  *     responses:
-//  *       201:
-//  *         description: Product created successfully
-//  *       400:
-//  *         description: Invalid input
-//  *       401:
-//  *         description: Unauthorized access
-//  *       403:
-//  *         description: Forbidden - Not an admin
-//  *       500:
-//  *         description: Internal server error
-//  */
 router.post("/", isAuthenticated, isAdmin, createProduct);
 
 export default router;

@@ -286,11 +286,7 @@ GuitarStore4-2
    │  ├─ css
    │  │  └─ style.css
    │  ├─ img
-   │  │  ├─ acoustic.png
-   │  │  │  ├─ ibanez-logo.png
-   │  │  │  └─ jackson-logo.png
-   │  │  ├─ GibsonLesPaulStudio2016T.png
-   │  │  └─ GibsonSGStandard2016T.png
+   │  │  └─ directorioDeImagenes.png
    │  └─ js
    │     ├─ main.js
    │     └─ rockAlerts.js

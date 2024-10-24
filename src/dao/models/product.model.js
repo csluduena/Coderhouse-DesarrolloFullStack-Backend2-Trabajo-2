@@ -38,7 +38,6 @@ const productSchema = new mongoose.Schema({
     category: { // Nuevo campo para la categoría
         type: String,
         required: true,
-        // Puedes agregar aquí las categorías que desees
         enum: ['Electric Guitar', 'Bass', 'Drums', 'Keyboards']
     }
 }, { timestamps: true });

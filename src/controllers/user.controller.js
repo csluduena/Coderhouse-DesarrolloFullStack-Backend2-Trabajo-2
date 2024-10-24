@@ -3,9 +3,6 @@ import Cart from '../dao/models/cart.model.js';
 import jwt from 'jsonwebtoken';
 import { config } from 'dotenv';
 import { ERROR_CODES, ERROR_MESSAGES } from '../utils/errorCodes.js'
-
-
-
 import { UserRepository } from '../dao/repositories/user.repository.js';
 import { UserDTO } from '../dto/user.dto.js';
 
@@ -28,6 +25,50 @@ export const getCurrentUser = async (req, res) => {
         console.error('Error en getCurrentUser:', error);
         res.status(500).json({ message: 'Error interno del servidor' });
     }
+};
+
+export const changeUserRole = async (req, res) => {
+    try {
+        const { uid } = req.params;
+        const { role } = req.body;
+
+        if (!['user', 'admin'].includes(role)) {
+            return res.status(ERROR_CODES.BAD_REQUEST).json({ message: 'Invalid role' });
+        }
+
+        const user = await User.findById(uid);
+        if (!user) {
+            return res.status(ERROR_CODES.NOT_FOUND).json({ message: ERROR_MESSAGES.USER_NOT_FOUND });
+        }
+
+        user.role = role;
+        await user.save();
+
+        res.status(200).json({ message: 'User role updated successfully', user });
+    } catch (error) {
+        console.error('Error in changeUserRole:', error);
+        res.status(ERROR_CODES.INTERNAL_SERVER_ERROR).json({ message: ERROR_MESSAGES.SERVER_ERROR });
+    }
+};
+
+// Función de callback para Google
+export const googleCallback = (req, res) => {
+    const token = jwt.sign(
+        {
+            userId: req.user._id,
+            first_name: req.user.first_name,
+            last_name: req.user.last_name,
+            email: req.user.email,
+            age: req.user.age,
+            role: req.user.role,
+            cart: req.user.cart
+        },
+        jwtSecret,
+        { expiresIn: '1h' }
+    );
+
+    res.cookie('token', token, { httpOnly: true, maxAge: 3600000 });
+    res.redirect('/current');
 };
 
 export const register = async (req, res) => {
@@ -74,10 +115,8 @@ export const register = async (req, res) => {
             age: user.age,
             role: user.role,
             cart: user.cart
-
         };
 
-        // Enviar respuesta con la URL de redirección
         res.status(201).json({
             message: 'Usuario registrado exitosamente',
             user: userInfo,
@@ -208,6 +247,3 @@ export const githubCallback = (req, res) => {
     res.redirect('/current');
     req.user = User;
 };
-
-
-

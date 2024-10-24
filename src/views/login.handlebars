@@ -7,7 +7,7 @@
     </div>
     <div class="form-group">
       <label for="password"></label>
-      <input type="password" id="password" name="password"  placeholder="Contraseña" style="color:Black; font-size:19px" required class="form-controlLo">
+      <input type="password" id="password" name="password" placeholder="Contraseña" style="color:Black; font-size:19px" required class="form-controlLo">
     </div>
     <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
   </form>
@@ -17,6 +17,9 @@
   <p style="margin-top:1rem;">O inicia sesión con:</p>
   <a href="/api/sessions/github" class="btn btn-github">
     <i class="fab fa-github"></i> Iniciar sesión con GitHub
+  </a>
+  <a href="/api/sessions/google" class="btn btn-google" style="margin-top: 10px;">
+    <i class="fab fa-google"></i> Iniciar sesión con Google
   </a>
 </div>
 
@@ -40,9 +43,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (response.ok) {
                     const data = await response.json();
                     if (typeof checkAuth === 'function') {
-                        await checkAuth();
+                        await checkAuth(); // Verificar autenticación después de iniciar sesión
                     }
-                    window.location.href = data.redirectUrl; 
+                    window.location.href = '/'; // Redirigir a la página principal
                 } else {
                     const errorData = await response.text();
                     console.error('Error response:', errorData);

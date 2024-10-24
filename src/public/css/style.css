@@ -565,12 +565,37 @@ nav ul li a:hover {
 
 .noAcc2 {
     color: #ff5353;
-    text-shadow: -1px 1px 3px #ff0000;
+    text-shadow: -1px 1px 3px #ffffff;
+    font-size: -webkit-xxx-large;
+    background-color: #4f15158a;
+    padding: 8px;
+    border-radius: 18px;
+    text-decoration: none;
+    border: 2px solid #4f15158a;
+}
+
+.noAcc2:hover {
+    border: 2px solid white;
 }
 
 #register-form {
     font-size: 13px;
     gap: 8px;
+}
+
+/* Para todos los enlaces */
+a {
+    text-decoration: none !important;
+}
+
+/* Solo para los enlaces del footer */
+.footer-links a {
+    text-decoration: none;
+}
+
+/* Solo para los íconos de redes sociales */
+.social-icon {
+    text-decoration: none;
 }
 
 .profile-info {

@@ -24,7 +24,7 @@
                                     Añadir al carrito
                                 </button>
                             {{else}}
-                                <a href="/login" class="btn btn-secondary">Login to Buy</a>
+                                <a href="/login" class="btn btn-secondary">Inicia sesión para comprar</a>
                             {{/if}}
                         {{else}}
                             <button class="btn btn-out-of-stock-home" disabled>
@@ -34,7 +34,7 @@
                     </div>
                     {{#if (eq this.stock 0)}}
                     <div class="out-of-stock-overlay-home">
-                        Out of Stock
+                        Agotado
                     </div>
                     {{/if}}
                 </div>
@@ -48,22 +48,22 @@
         <div class="modal-content">
             <span class="close" style="cursor: pointer; text-align:end">&times;</span>
             <h2 id="modalTitle" style="color:yellow; font-family:Metal Mania; text-shadow: 0 0 10px var(--primary-color); animation: glow 2s ease-in-out infinite alternate; !important"></h2>
-            <img id="modalImage" src="" style="margin-top:1rem; margin-bottom:2rem; !important" alt="Product Image">
+            <img id="modalImage" src="" style="margin-top:1rem; margin-bottom:2rem; !important" alt="Imagen del producto">
             <p id="modalDescription"></p>
             <p id="modalPrice"></p>
             <p id="modalStock"></p>
             {{#if user}}
                 <button id="modalAddToCart" class="btn btn-primary" data-id="">Añadir al carrito</button>
             {{else}}
-                <a href="/login" class="btn btn-primary">Login to Buy</a>
+                <a href="/login" class="btn btn-primary">Inicia sesión para comprar</a>
             {{/if}}
         </div>
     </div>
 
     <section class="cta-section">
-        <h2>Ready to Rock?</h2>
-        <p>Find your next instrument and start your musical journey today.</p>
-        <a href="/products" class="btn btn-large btn-primary">Explore All Products</a>
+        <h2>¿Listo para rockear?</h2>
+        <p>Encuentra tu próximo instrumento y comienza tu viaje musical hoy.</p>
+        <a href="/products" class="btn btn-large btn-primary">Explorar todos los productos</a>
     </section>
 </div>
 
