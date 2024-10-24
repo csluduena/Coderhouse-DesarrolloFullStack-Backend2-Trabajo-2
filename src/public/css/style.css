@@ -564,18 +564,29 @@ nav ul li a:hover {
 }
 
 .noAcc2 {
-    color: #ff5353;
-    text-shadow: -1px 1px 3px #ffffff;
-    font-size: -webkit-xxx-large;
-    background-color: #4f15158a;
-    padding: 8px;
-    border-radius: 18px;
-    text-decoration: none;
-    border: 2px solid #4f15158a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 300px; /* Puedes ajustar el tamaño según sea necesario */
+    margin: 10px auto 0;
+    padding: 10px 16px; /* Ajustado para ser similar a Código A */
+    background-color: rgba(0, 0, 0, 0.54); /* Cambiado a un color más claro */
+    color: #ffffff !important; /* Color de texto similar */
+    border: 2px solid #4f1515; /* Ajustado para que sea un borde más claro */
+    border-radius: 5px; /* Manteniendo el estilo del borde redondeado */
+    font-weight: 500; /* Similar al Código A */
+    /* text-shadow: -1px 1px 3px #ffffff; Conservado */
+    font-size: bold; /* Este tamaño puede ser ajustado */
+    text-decoration: none; /* Conservado */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08); /* Sombra similar */
+    transition: background-color 0.2s; /* Efecto de transición */
 }
+
 
 .noAcc2:hover {
     border: 2px solid white;
+    cursor: pointer;
 }
 
 #register-form {
