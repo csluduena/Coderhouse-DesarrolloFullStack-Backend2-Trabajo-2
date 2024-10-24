@@ -117,26 +117,26 @@ Instalación y Configuración
 ---------------------------
 
 1.  **Clonar el repositorio**:
-    `javascript
+    ```javascript
     bash > Copiar código:
-    `
+    ```
 ```javascript
     git clone https://github.com/csluduena/Coderhouse-DesarrolloFullStack-Backend2-Trabajo-2.git
 ```
 2.  **Instalar dependencias**:
-    `javascript
+    ```javascript
     bash > Copiar código:
-    `
+    ```
 ```javascript
     cd Coderhouse-DesarrolloFullStack-Backend2-Trabajo-2
 ```
 ```javascript
-        npm install
+    npm install
 ```
 3.  **Configurar variables de entorno**: Crear un archivo `.env` en la raíz del proyecto con las siguientes variables:
-     `javascript
+    ```javascript
     bash > Copiar código:
-    `
+    ```
 ```javascript
     MONGODB_URI=tu_uri_de_mongodb
     JWT_SECRET=tu_secreto_jwt
@@ -144,11 +144,11 @@ Instalación y Configuración
     PORT=8080
 ``` 
 4.  **Iniciar el servidor**:
-    `javascript
-        bash > Copiar código:
-        `
+    ```javascript
+    bash > Copiar código:
+    ```
 ```javascript
-        npm run dev
+    npm run dev
 ```
 Uso
 ---
@@ -162,9 +162,9 @@ Scripts Útiles
 
 Un script para asignar el rol de administrador a un usuario ya registrado en la base de datos.
 
-`javascript
+```javascript
     bash > Copiar código:
-    `
+```
 ```javascript
     node src/utils/setAdmin.js <userId>
 ```
@@ -172,9 +172,9 @@ Un script para asignar el rol de administrador a un usuario ya registrado en la 
 
 Un script para corregir carritos en la base de datos que puedan tener productos no definidos.
 
-`javascript
+```javascript
     bash > Copiar código:
-    `
+```
 ```javascript
     node src/utils/cartRepair.js
 ```
