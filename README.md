@@ -194,11 +194,9 @@ Implementaciones Técnicas Destacadas
 
 Se utilizan DTOs para asegurar que los datos enviados entre las capas de la aplicación estén correctamente formateados.
 
-javascript
+```javascript 
+Ruta: src/dto/product.dto.js
 
-Copiar código
-
-`// src/dto/product.dto.js
 export class ProductDTO {
     constructor(product) {
         this.id = product._id;
@@ -208,24 +206,23 @@ export class ProductDTO {
         this.img = product.img;
         this.stock = product.stock;
     }
-}`
-
+}
+```
 ### Repositorios y Patrones de Diseño
 
 El uso de patrones como DAO y repositorio permite una abstracción clara para las operaciones de base de datos:
 
-javascript
+```javascript
+Ruta: src/dao/repositories/product.repository.js
 
-Copiar código
-
-`// src/dao/repositories/product.repository.js
 export class ProductRepository {
     async findById(id) {
         return await Product.findById(id);
     }
 
     // Otros métodos de CRUD
-}`
+}
+```
 
 ### Procesamiento de Pedidos y Tickets
 
