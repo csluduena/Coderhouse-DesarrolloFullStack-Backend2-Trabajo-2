@@ -117,24 +117,24 @@ Instalación y Configuración
 ---------------------------
 
 1.  **Clonar el repositorio**:
-
+```    
     bash
 
     Copiar código
 
-    `git clone https://github.com/csluduena/Coderhouse-DesarrolloFullStack-Backend2-Trabajo-2.git`
-
+    git clone `https://github.com/csluduena/Coderhouse-DesarrolloFullStack-Backend2-Trabajo-2.git`
+```
 2.  **Instalar dependencias**:
-
+```
     bash
 
     Copiar código
 
     `cd Coderhouse-DesarrolloFullStack-Backend2-Trabajo-2
     npm install`
-
+```
 3.  **Configurar variables de entorno**: Crear un archivo `.env` en la raíz del proyecto con las siguientes variables:
-
+``` 
     bash
 
     Copiar código
@@ -143,15 +143,15 @@ Instalación y Configuración
     JWT_SECRET=tu_secreto_jwt
     SESSION_SECRET=tu_secreto_de_sesion
     PORT=8080`
-
+``` 
 4.  **Iniciar el servidor**:
-
+```
     bash
 
     Copiar código
 
     `npm run dev`
-
+```
 Uso
 ---
 
@@ -163,23 +163,23 @@ Scripts Útiles
 ### Asignar Rol de Administrador
 
 Un script para asignar el rol de administrador a un usuario ya registrado en la base de datos.
-
+```
 bash
 
 Copiar código
 
 `node src/utils/setAdmin.js <userId>`
-
+```
 ### Reparar Carritos
 
 Un script para corregir carritos en la base de datos que puedan tener productos no definidos.
-
+```
 bash
 
 Copiar código
 
 `node src/utils/cartRepair.js`
-
+```
 Consideraciones
 ---------------
 
