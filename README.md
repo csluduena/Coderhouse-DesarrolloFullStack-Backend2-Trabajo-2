@@ -122,7 +122,7 @@ Instalación y Configuración
 
     b- Copiar código:
 ```javascript
-    git clone https://github.com/csluduena/Coderhouse-DesarrolloFullStack-Backend2-Trabajo-2.git
+        git clone https://github.com/csluduena/Coderhouse-DesarrolloFullStack-Backend2-Trabajo-2.git
 ```
 2.  **Instalar dependencias**:
 
@@ -130,20 +130,21 @@ Instalación y Configuración
 
     b- Copiar código:
 ```javascript
-    cd Coderhouse-DesarrolloFullStack-Backend2-Trabajo-2
+        cd Coderhouse-DesarrolloFullStack-Backend2-Trabajo-2
 ```
-    npm install
-
+```javascript
+        npm install
+```
 3.  **Configurar variables de entorno**: Crear un archivo `.env` en la raíz del proyecto con las siguientes variables:
  
     a- bash
 
     b- Copiar código:
 ```javascript
-    MONGODB_URI=tu_uri_de_mongodb
-    JWT_SECRET=tu_secreto_jwt
-    SESSION_SECRET=tu_secreto_de_sesion
-    PORT=8080
+        MONGODB_URI=tu_uri_de_mongodb
+        JWT_SECRET=tu_secreto_jwt
+        SESSION_SECRET=tu_secreto_de_sesion
+        PORT=8080
 ``` 
 4.  **Iniciar el servidor**:
 
@@ -151,7 +152,7 @@ Instalación y Configuración
 
     b- Copiar código:
 ```javascript
-    npm run dev
+        npm run dev
 ```
 Uso
 ---
@@ -169,7 +170,7 @@ a- bash
 
 b- Copiar código:
 ```javascript
-node src/utils/setAdmin.js <userId>
+    node src/utils/setAdmin.js <userId>
 ```
 ### Reparar Carritos
 
@@ -179,7 +180,7 @@ a- bash
 
 b- Copiar código:
 ```javascript
-node src/utils/cartRepair.js
+    node src/utils/cartRepair.js
 ```
 Consideraciones
 ---------------
@@ -238,7 +239,7 @@ Conclusión
 
 El proyecto Guitar Store ha evolucionado significativamente con nuevas características, una estructura modular y una arquitectura escalable. Las mejoras incluyen autenticación segura, gestión avanzada de carritos, y un sistema robusto para la administración de productos. Las próximas mejoras podrían incluir filtros de productos más avanzados, reseñas de usuarios y la integración con pasarelas de pago.
 
-```
+```Javascript
 GuitarStore4-2
 ├─ .gitignore
 ├─ INFO ENV Y MONGODB.txt
