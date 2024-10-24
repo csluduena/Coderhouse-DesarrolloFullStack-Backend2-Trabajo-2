@@ -65,7 +65,7 @@ Características Principales
 
 Endpoints Clave
 ---------------
-```
+
 ### Admin
 
 -   `GET /admin/stock/update`: Update stock.
@@ -112,7 +112,7 @@ Tecnologías Utilizadas
 -   **Comunicación en Tiempo Real**: Socket.io para interacción cliente-servidor en tiempo real.
 -   **Manejo de Sesiones**: express-session y cookie-parser.
 -   **Variables de Entorno**: dotenv para configuración de entornos.
-```
+
 Instalación y Configuración
 ---------------------------
 
