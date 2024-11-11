@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://sdk.mercadopago.com/js/v2"></script>
+</head>
+<body>
+
+<h1>Integramos MecadoPago a nuestra aplicación</h1>
+
+<div class="cardMP">
+    <img src="../public/img/carpiLoco.gif" alt="mercadoPago">
+    <h2>Guitarra Example</h2>
+    <p>Precio: $950</p>
+    <button id="checkout-btn">Comprar</button>
+    <div id?="wallet-container"></div>
+</div>
+
+    
+</body>
+</html>
+
+<script>
+    const mp = new MercadoPago("123", {
+        locale: "es-AR"
+    });
+
+    document.getElementById("checkout-btn").addEventListener("click", async () => {
+        try {
+
+            const orderData = {
+                title: "Guitarra1",
+                quantity: 1,
+                price: 950
+            }
+            await fetch("http://localhost:8080/create-preference", {
+            metod: "POST",
+            Headers: {
+                "Content-Type":"aplication/json"
+            },
+            body: JSON.stringify(orderData)
+        })
+
+        const preference = await response.json();
+        createCheckoutButton(preference.id);
+    }   catch (error) {
+            alert("Error fatal, RIP")
+    })
+
+    const createCheckoutButton = (preferenceID) => {
+        const bricksBuilder = mp.bricks();
+
+        if(window.checkoutButton) window.checkoutButton.unmount();
+
+        const renderComponent = async () => {
+            await bricksBuilder.create("wallet", "wallet-container", {
+                initialization: {
+                    preferenceId: preferenceID
+                }
+            })
+        }
+    }
+
+</script>

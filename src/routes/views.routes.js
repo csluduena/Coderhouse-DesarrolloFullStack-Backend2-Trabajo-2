@@ -1,6 +1,17 @@
 import { Router } from 'express';
 import { isAuthenticated, checkUserSession } from '../middlewares/auth.middleware.js';
-import { getCart, getProductDetails, getProducts, getUserProfile, renderLoginPage, renderRegisterPage, renderHomePage, getCurrentUser, renderSuccessPage } from '../controllers/view.controller.js';
+import { 
+    getCart, 
+    getProductDetails, 
+    getProducts, 
+    getUserProfile, 
+    renderLoginPage, 
+    renderRegisterPage, 
+    renderHomePage, 
+    getCurrentUser, 
+    renderSuccessPage,
+    renderMercadoPago
+} from '../controllers/view.controller.js';
 
 const router = Router();
 
@@ -28,5 +39,7 @@ router.get('/login', checkUserSession, renderLoginPage);
 router.get('/register', checkUserSession, renderRegisterPage);
 
 router.get('/success', isAuthenticated, renderSuccessPage);
+
+router.get('/mercado-pago', isAuthenticated, renderMercadoPago);
 
 export default router;

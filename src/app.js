@@ -23,9 +23,16 @@ import path from 'path';
 import "./db.js";
 import bodyParser from 'body-parser';
 import { repairCarts } from './utils/cartRepair.js';
+import cors from "cors";
+import {MercadoPagoConfig, Preference} from "mercadopago";
+//npm i express cors mercadopago
+const PUERTO = 8080; 
+
 
 const app = express();
 const PORT = process.env.PORT || 8080;
+
+const client = new MercadoPagoConfig({accessToken: "1234"});
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -100,6 +107,8 @@ app.get('/favicon.ico', (req, res) => res.status(204).end());
 
 app.use(notFoundHandler);
 app.use(errorHandler);
+
+
 
 const httpServer = app.listen(config.port, async () => {
     console.log(`Servidor escuchando en el puerto ${config.port}`);

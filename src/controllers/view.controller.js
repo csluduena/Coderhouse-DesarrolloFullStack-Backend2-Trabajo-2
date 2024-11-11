@@ -17,15 +17,11 @@ export const renderHomePage = async (req, res) => {
         const allProducts = await Product.find();
         const featuredProducts = getRandomProducts(allProducts, 10);
 
-        //console.log('User in session:', res.locals.user);
-
         res.render('home', {
             user: res.locals.user,
             categories: categories,
             featuredProducts: featuredProducts
         });
-
-        //console.log('User object:', res.locals.user);
 
     } catch (error) {
         console.error('Error al obtener categorías y productos:', error);
@@ -80,7 +76,6 @@ export const getCart = async (req, res) => {
     }
 };
 
-
 export const getCurrentUser = async (req, res) => {
     try {
         if (!req.user) {
@@ -109,7 +104,6 @@ export const getProductDetails = async (req, res) => {
 export const getProducts = async (req, res) => {
     try {
         if (!req.user) {
-            // Si el usuario no está autenticado, redirigir al login
             return res.redirect('/login');
         }
         const page = parseInt(req.query.page) || 1;
@@ -145,4 +139,11 @@ export const renderLoginPage = (req, res) => {
 
 export const renderRegisterPage = (req, res) => {
     res.render("register");
+};
+
+export const renderMercadoPago = (req, res) => {
+    res.render('mercadoPago', {
+        title: 'MercadoPago Integration',
+        style: 'style.css'
+    });
 };

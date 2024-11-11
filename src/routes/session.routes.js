@@ -35,6 +35,8 @@ const router = Router();
  */
 router.post('/login', login);
 
+router.post('/register', register);
+
 /**
  * @swagger
  * /api/sessions/logout:
@@ -64,6 +66,8 @@ router.get("/check-auth", (req, res) => {
         res.json({ isAuthenticated: false });
     }
 });
+
+router.post('/register', register);
 
 // Rutas de autenticación con GitHub
 router.get('/github', passport.authenticate('github', { scope: ['user:email'] }));
