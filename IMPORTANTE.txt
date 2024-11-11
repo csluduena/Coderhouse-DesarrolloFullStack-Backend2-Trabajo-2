@@ -1,1 +1,1 @@
-Solicitar las credenciales a mi mail, csluduena@gmail.com
+Para poder correr el proyecto se requieren variables de entorno, acceso a API de google, github y demás. Si deseas testearlo, por favor Solicitar las credenciales a mi mail, csluduena@gmail.com
