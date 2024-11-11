@@ -1,4 +1,0 @@
-MONGODB_URI=mongodb+srv://csluduena:coderhouse@cluster0.xa9uk.mongodb.net/GuitarStore
-JWT_SECRET=sEb4$t1áN!-v.Pw
-SESSION_SECRET=J8r!c7F4kQ@9mLp
-PORT=8080
